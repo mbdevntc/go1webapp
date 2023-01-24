@@ -1,5 +1,5 @@
-import { InclinationController } from "./InclinationMovement"
-import { MovementController } from "./MovementController"
+import { InclinationController } from "./InclinationMovement.js"
+import { MovementController } from "./MovementController.js"
 
 export const ManualCommands = ({ robot }) => {
     return (

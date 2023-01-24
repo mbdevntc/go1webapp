@@ -1,8 +1,36 @@
-import { ControllerBtn } from "./ControllerBtn"
-import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, arrowRightUp, arrowRightDown } from "../utils/icons"
+import { ControllerBtn } from "./ControllerBtn.js"
+import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, arrowRightUp, arrowRightDown } from "../utils/icons.js"
 
 
 export const MovementController = ({ robot }) => {
+
+    const goForward = async () => {
+        const data = JSON.stringify({ speed: 0.25, time: 1000 })
+        try {
+            const res = await fetch("http://localhost:4001/goForward", {
+                headers: {'Content-Type': 'application/json'},
+                method: 'POST',
+                body: data
+            })
+            return res
+        } catch(e) {
+            console.log(e)
+        }
+    }
+
+    const goBackward = async () => {
+        const data = JSON.stringify({ speed: 0.25, time: 1000 })
+        try {
+            const res = await fetch("http://localhost:4001/goBackward", {
+                headers: {'Content-Type': 'application/json'},
+                method: 'POST',
+                body: data
+            })
+            return res
+        } catch(e) {
+            console.log(e)
+        }
+    }
 
     return (
         <div className="controller">
@@ -16,7 +44,7 @@ export const MovementController = ({ robot }) => {
             />
             <ControllerBtn
                 icon={arrowUp}
-                onClick={() => robot.goForward(0.25, 1000)}
+                onClick={goForward}
             />
             <ControllerBtn
                 icon={arrowRightUp}
@@ -45,7 +73,7 @@ export const MovementController = ({ robot }) => {
             />
             <ControllerBtn
                 icon={arrowDown}
-                onClick={() => robot.goBackward()}
+                onClick={goBackward}
             />
             <ControllerBtn
                 icon={arrowRightDown}

@@ -1,5 +1,5 @@
-import { ControllerBtn } from "./ControllerBtn"
-import { arrowUp, arrowDown } from "../utils/icons"
+import { ControllerBtn } from "./ControllerBtn.js"
+import { arrowUp, arrowDown } from "../utils/icons.js"
 
 
 export const InclinationController = ({ robot }) => {

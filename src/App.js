@@ -1,12 +1,7 @@
-// import { Go1 } from '@droneblocks/go1-js';
-import { ManualCommands } from './components/ManualCommands';
-import { NavBar } from './components/NavBar';
+import { ManualCommands } from './components/ManualCommands.js';
+import { NavBar } from './components/NavBar.js';
 
 import './App.css';
-// const robot = new Go1()
-// 
-
-
 
 function App() {
 

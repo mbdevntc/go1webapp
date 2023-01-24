@@ -4,15 +4,32 @@ if(process.env.NODE_ENV !== 'production'){
 
 const express = require('express')
 const app = express()
+const cors = require('cors')
+const bodyParser = require('body-parser')
 const Go1 = require('@droneblocks/go1-js').Go1
-// import { Go1 } from '@droneblocks/go1-js';
+
+app.use(cors())
+app.use(bodyParser.json())
 
 const robot = new Go1()
+robot.setMode("stand")
 
 app.post('/goForward', async (req, res) => {
+    console.log("ciao")
+    const { speed, time } = await req.body
     robot.setMode("walk")
     console.log("move forward")
-    await robot.goBackward(0.25, 1000)
+    await robot.goForward(speed, time)
+    await robot.wait(1000)
+    console.log("done")
+})
+
+app.post('/goBackward', async (req, res) => {
+    console.log("ciao")
+    robot.setMode("walk")
+    const { speed, time } = await req.body
+    console.log("move backward")
+    await robot.goBackward(speed, time)
     await robot.wait(1000)
     console.log("done")
 })
