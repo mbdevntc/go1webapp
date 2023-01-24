@@ -2,26 +2,12 @@ import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, arrowRightUp, arrowRightDown } from "../utils/icons.js"
 
 
-export const MovementController = ({ robot }) => {
+export const MovementController = () => {
 
-    const goForward = async () => {
-        const data = JSON.stringify({ speed: 0.25, time: 1000 })
+    const move = async ({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time }) => {
+        const data = JSON.stringify({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time})
         try {
-            const res = await fetch("http://localhost:4001/goForward", {
-                headers: {'Content-Type': 'application/json'},
-                method: 'POST',
-                body: data
-            })
-            return res
-        } catch(e) {
-            console.log(e)
-        }
-    }
-
-    const goBackward = async () => {
-        const data = JSON.stringify({ speed: 0.25, time: 1000 })
-        try {
-            const res = await fetch("http://localhost:4001/goBackward", {
+            const res = await fetch("http://localhost:4001/move", {
                 headers: {'Content-Type': 'application/json'},
                 method: 'POST',
                 body: data
@@ -34,53 +20,56 @@ export const MovementController = ({ robot }) => {
 
     return (
         <div className="controller">
+            {/* Pulsante avanti sinistra */}
             <ControllerBtn
                 icon={arrowLeftUp}
-                onClick={() => {
-                    robot.goForward()
-                    robot.goLeft()
-                }}
+                onClick={() => move(-0.25, 0, 0.25, 1000)}
                 className={"btn-sm"}
-            />
+                />
+
+            {/* Pulsante avanti */}
             <ControllerBtn
                 icon={arrowUp}
-                onClick={goForward}
+                onClick={() => move(0, 0, 0.25, 1000)}
             />
+
+            {/* Pulsante avanti destra */}
             <ControllerBtn
                 icon={arrowRightUp}
-                onClick={() => {
-                    robot.goForward()
-                    robot.goRight()
-                }}
+                onClick={() => move(0.25, 0, 0.25, 1000)}
                 className={"btn-sm"}
             />
+
+            {/* Pulsante sinistra */}
             <ControllerBtn
                 icon={arrowLeft}
-                onClick={() => robot.goLeft()}
+                onClick={() => move(-0.25, 0, 0, 1000)}
             />
             <div className="blank"></div>
+
+            {/* Pulsante destra */}
             <ControllerBtn
                 icon={arrowRight}
-                onClick={() => robot.goRight()}
+                onClick={() => move(0.25, 0, 0, 1000)}
             />
+
+            {/* Pulsante inidietro sinistra */}
             <ControllerBtn
                 icon={arrowLeftDown}
-                onClick={() => {
-                    robot.goBackward()
-                    robot.goLeft()
-                }}
+                onClick={() => move(-0.25, 0, -0.25, 1000)}
                 className={"btn-sm"}
             />
+
+            {/* Pulsante indietro */}
             <ControllerBtn
                 icon={arrowDown}
-                onClick={goBackward}
+                onClick={() => move(0, 0, -0.25, 1000)}
             />
+
+            {/* Pulsante indietro destra */}
             <ControllerBtn
                 icon={arrowRightDown}
-                onClick={() => {
-                    robot.goBackward()
-                    robot.goRight()
-                }}
+                onClick={() => move(0.25, 0, -0.25, 1000)}
                 className={"btn-sm"}
             />
         </div>

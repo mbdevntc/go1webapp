@@ -2,14 +2,14 @@ import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown } from "../utils/icons.js"
 
 
-export const InclinationController = ({ robot }) => {
+export const InclinationController = () => {
 
     return (
         <div className="controller">
             <div className="blank"></div>
             <ControllerBtn
                 icon={arrowUp}
-                onClick={() => robot.goForward()}
+                onClick={() => console.log("ciao")}
             />
             <div className="blank"></div>
             <div className="blank"></div>
@@ -18,7 +18,7 @@ export const InclinationController = ({ robot }) => {
             <div className="blank"></div>
             <ControllerBtn
                 icon={arrowDown}
-                onClick={() => robot.goBackward()}
+                onClick={() => console.log("ciao di nuovo")}
             />
             <div className="blank"></div>
         </div>

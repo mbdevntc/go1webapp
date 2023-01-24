@@ -5,19 +5,43 @@ import './App.css';
 
 function App() {
 
-  let robot = {
-    goForward: () => console.log("Sto avanzando"),
-    goBackward: () => console.log("Sto retreggiando"),
-    goRight: () => console.log("Sto andando a destra"),
-    goLeft: () => console.log("Sto andando a sinistra"),
-    inclineUp: () => console.log("Inclinato verso l'alto"),
-    inclineDown: () => console.log("Inclinato verso il basso"),
-  }
+  
+  /* 
+    Possibili comandi:
+      * goForward
+      * goBackward
+      * goLeft
+      * goRight
+      * go
+      * turnLeft
+      * turnRight
+      * extendUp
+      * squatDown
+      * leanLeft
+      * leanRight
+      * twistLeft
+      * twistRight
+      * lookDown
+      * lookUp
+      * wait
+    Modalità cane:
+      * dance1
+      * dance2
+      * straightHand1
+      * damping
+      * standUp,
+      * standDown
+      * recoverStand
+      * stand
+      * walk
+      * run
+      * climb
+  */
   
   return (
     <div className="App">
       <NavBar />
-      <ManualCommands robot={robot} />
+      <ManualCommands />
     </div>
   );
 }

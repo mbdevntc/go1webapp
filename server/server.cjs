@@ -34,6 +34,17 @@ app.post('/goBackward', async (req, res) => {
     console.log("done")
 })
 
+app.post('/move', async (req, res) => {
+    console.log("Inizio della richiesta")
+    robot.setMode("walk")
+    const { leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time } = await req.body
+    console.log("Il robot si muove")
+    await robot.go(leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
+    await robot.wait(1000)
+    console.log("done")
+})
+
+
 app.use((err, req, res, next) => {
     const status = err.status || 500;
     res.status(status).send(err.message);
