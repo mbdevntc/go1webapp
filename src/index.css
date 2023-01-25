@@ -8,4 +8,32 @@
   font-family: 'Poppins', sans-serif;
   border: none;
   outline: none;
+  user-select: none;
 }
+
+input[type="range"] { 
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: 300px;
+  height: 1.5rem;
+}
+
+::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  background-color: lightgray;
+  border-radius: 100vmax;
+  overflow: hidden;
+}
+
+::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: black;
+}
+
+::-webkit-slider-thumb {
+  box-shadow: -208px 0 0 200px black;
+}
+

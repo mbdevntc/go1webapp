@@ -1,12 +1,17 @@
 .App {
   width: 100vw;
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 4rem 1fr;
+  grid-template-areas: "navbar"
+                       "main";
+  place-content: stretch;
+  place-items: stretch;
 }
 
 .navbar {
+  grid-area: navbar;
   padding: 1rem;
   height: 4rem;
   position: fixed;
@@ -25,18 +30,65 @@
   font-weight: 600;
 }
 
+.info {
+  padding: 1rem;
+  align-self: center;
+  text-align: center;
+  border-radius: .25rem;
+}
+
+.info.green {
+  background-color: rgb(179, 255, 185);
+  color: rgb(0, 165, 14);
+}
+
+.info.red {
+  background-color: rgb(255, 179, 179);
+  color: rgb(165, 0, 0);
+}
+
 .main {
+  grid-area: main;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+.main-interaction {
+  padding: 5rem;
+  display: flex;
+  justify-content: space-around;
   align-items: center;
   gap: 2rem;
-  padding: 5rem;
+}
+
+.title {
+  padding-block: .375rem;
+  padding-inline: 1rem;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: .5rem;
+}
+
+/* .slider {
+  transform: rotate(270deg);
+} */
+
+.controller-block {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  align-items: center;
+  gap: 2rem;
 }
 
 .controller {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
   place-content: center;
   place-items: center;
 }

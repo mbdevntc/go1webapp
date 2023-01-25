@@ -1,10 +1,11 @@
 import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, arrowRightUp, arrowRightDown } from "../utils/icons.js"
+import { Title } from "./Title.js"
 
 
-export const MovementController = () => {
+export const MovementController = ({ speed, lrSpeed, turningSpeed }) => {
 
-    const move = async ({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time }) => {
+    const move = async (leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
         const data = JSON.stringify({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time})
         try {
             const res = await fetch("http://localhost:4001/move", {
@@ -12,66 +13,109 @@ export const MovementController = () => {
                 method: 'POST',
                 body: data
             })
+            console.log(res)
             return res
         } catch(e) {
             console.log(e)
         }
     }
+    
+    let intervalID
+    const continueMove = cb => {
+        cb()
+        intervalID = setInterval(() => cb(), 275)
+    }
 
+    const stop = () => {
+        move(0, 0 ,0, 100)
+        clearInterval(intervalID)
+    }
     return (
-        <div className="controller">
-            {/* Pulsante avanti sinistra */}
-            <ControllerBtn
-                icon={arrowLeftUp}
-                onClick={() => move(-0.25, 0, 0.25, 1000)}
-                className={"btn-sm"}
+        <div className="controller-block">
+            <Title title={"Movimento"} />
+            <div className="controller">
+                {/* Pulsante avanti sinistra */}
+                <ControllerBtn
+                    icon={arrowLeftUp}
+                    // onMouseDown={() => continueMove(() => move((-lrSpeed, 0, speed, 250))}
+                    onMouseDown={() => continueMove(() => move(0, -turningSpeed, speed, 250))}
+                    onMouseUp={stop}
+                    className={"btn-sm"}
+                    />
+
+                {/* Pulsante avanti */}
+                <ControllerBtn
+                    icon={arrowUp}
+                    onMouseDown={() => continueMove(() =>  move(0, 0, speed, 250))}
+                    onMouseUp={stop}
                 />
 
-            {/* Pulsante avanti */}
-            <ControllerBtn
-                icon={arrowUp}
-                onClick={() => move(0, 0, 0.25, 1000)}
-            />
+                {/* Pulsante avanti destra */}
+                <ControllerBtn
+                    icon={arrowRightUp}
+                    // onMouseDown={() => continueMove(() => move(lrSpeed, 0, speed, 250))}
+                    onMouseDown={() => continueMove(() => move(0, turningSpeed, speed, 250))}
+                    onMouseUp={stop}
+                    className={"btn-sm"}
+                />
 
-            {/* Pulsante avanti destra */}
-            <ControllerBtn
-                icon={arrowRightUp}
-                onClick={() => move(0.25, 0, 0.25, 1000)}
-                className={"btn-sm"}
-            />
+                {/* Pulsante sinistra */}
+                <ControllerBtn
+                    icon={arrowLeft}
+                    onMouseDown={() => continueMove(() => move(-lrSpeed, 0, 0, 250))}
+                    onMouseUp={stop}
+                />
 
-            {/* Pulsante sinistra */}
-            <ControllerBtn
-                icon={arrowLeft}
-                onClick={() => move(-0.25, 0, 0, 1000)}
-            />
-            <div className="blank"></div>
+                <div className="blank"></div>
 
-            {/* Pulsante destra */}
-            <ControllerBtn
-                icon={arrowRight}
-                onClick={() => move(0.25, 0, 0, 1000)}
-            />
+                {/* Pulsante destra */}
+                <ControllerBtn
+                    icon={arrowRight}
+                    onMouseDown={() => continueMove(() => move(lrSpeed, 0, 0, 250))}
+                    onMouseUp={stop}
+                />
 
-            {/* Pulsante inidietro sinistra */}
-            <ControllerBtn
-                icon={arrowLeftDown}
-                onClick={() => move(-0.25, 0, -0.25, 1000)}
-                className={"btn-sm"}
-            />
+                {/* Pulsante inidietro sinistra */}
+                <ControllerBtn
+                    icon={arrowLeftDown}
+                    // onMouseDown={() => continueMove(() => move(-lrSpeed, 0, -speed, 250))}
+                    onMouseDown={() => continueMove(() => move(0, -turningSpeed, -speed, 250))}
+                    onMouseUp={stop}
+                    className={"btn-sm"}
+                />
 
-            {/* Pulsante indietro */}
-            <ControllerBtn
-                icon={arrowDown}
-                onClick={() => move(0, 0, -0.25, 1000)}
-            />
+                {/* Pulsante indietro */}
+                <ControllerBtn
+                    icon={arrowDown}
+                    onMouseDown={() => continueMove(() => move(0, 0, -speed, 250))}
+                    onMouseUp={stop}
+                 />
 
-            {/* Pulsante indietro destra */}
-            <ControllerBtn
-                icon={arrowRightDown}
-                onClick={() => move(0.25, 0, -0.25, 1000)}
-                className={"btn-sm"}
-            />
+                {/* Pulsante indietro destra */}
+                <ControllerBtn
+                    icon={arrowRightDown}
+                    // onMouseDown={() => continueMove(() => move(lrSpeed, 0, -speed, 250))}
+                    onMouseDown={() => continueMove(() => move(0, turningSpeed, -speed, 250))}
+                    onMouseUp={stop}
+                    className={"btn-sm"}
+                />
+
+                <ControllerBtn
+                    icon={arrowLeft}
+                    // onMouseDown={() => continueMove(() => move(lrSpeed, 0, -speed, 250))}
+                    onMouseDown={() => continueMove(() => move(0, -turningSpeed, 0, 250))}
+                    onMouseUp={stop}
+                    className={"btn-sm"}
+                />
+                <div className="blank"></div>
+                <ControllerBtn
+                    icon={arrowRight}
+                    // onMouseDown={() => continueMove(() => move(lrSpeed, 0, -speed, 250))}
+                    onMouseDown={() => continueMove(() => move(0, turningSpeed, 0, 250))}
+                    onMouseUp={stop}
+                    className={"btn-sm"}
+                />
+            </div>
         </div>
     )
 }
