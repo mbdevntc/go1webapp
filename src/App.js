@@ -2,25 +2,19 @@ import { ManualCommands } from './components/ManualCommands.js';
 import { NavBar } from './components/NavBar.js';
 
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { isConnected, selectIsConnected } from './features/RobotSlice.js';
+import { Modes } from './components/Modes.js';
 
 function App() {
-  const [ connected, setConnected ] = useState(false)
+  const dispatch = useDispatch()
+  const connected = useSelector(selectIsConnected)
 
-  const isConnected = async () => {
-    try {
-        const res = await fetch("http://localhost:4001/isConnected")
-        const json = await res.json()
-        return json
-      } catch(e) {
-        console.log(e)
-      }
-    }
-    
-    useEffect(() => {
+  useEffect(() => {
       const intervalID = setInterval(async () => {
-        const connection = await isConnected()
-        setConnected(connection.connected)
+        // console.log("Test connessione")
+        dispatch(isConnected())
     }, 1000)
     return () => clearInterval(intervalID)
   })
@@ -29,6 +23,7 @@ function App() {
     <div className="App">
       <NavBar />
       <div className="main">
+        <Modes />
         <ManualCommands />
         <div className={`info ${connected ? "green" : "red"}`}>
           {connected ? "Robot connesso" : "Robot non connesso"}

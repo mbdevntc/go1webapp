@@ -18,7 +18,10 @@
   top: 0;
   left: 0;
   right: 0;
+  z-index: 100;
   border-bottom: 2px solid black;
+  background-color: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
 
   display: flex;
   justify-content: space-between;
@@ -32,7 +35,7 @@
 
 .info {
   padding: 1rem;
-  align-self: center;
+  justify-self: center;
   text-align: center;
   border-radius: .25rem;
 }
@@ -49,10 +52,10 @@
 
 .main {
   grid-area: main;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: stretch;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 3fr 1fr;
+  align-items: center;
   gap: 2rem;
 }
 

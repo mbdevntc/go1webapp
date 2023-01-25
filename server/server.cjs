@@ -11,6 +11,11 @@ this.client.on("disconnect", () => {
     console.log("disconnected");
     this.connected = false;
 });
+
+this.client.on("offline", () => {
+    console.log("disconnected");
+    this.connected = false;
+});
 #######
 
 */

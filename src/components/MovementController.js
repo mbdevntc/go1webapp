@@ -1,9 +1,14 @@
 import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, arrowRightUp, arrowRightDown } from "../utils/icons.js"
 import { Title } from "./Title.js"
+import { useSelector } from "react-redux"
+import { selectLRSpeed, selectSpeed, selectTurningSpeed } from "../features/RobotSlice.js"
 
 
-export const MovementController = ({ speed, lrSpeed, turningSpeed }) => {
+export const MovementController = () => {
+    const speed = useSelector(selectSpeed)
+    const lrSpeed = useSelector(selectLRSpeed)
+    const turningSpeed = useSelector(selectTurningSpeed)
 
     const move = async (leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
         const data = JSON.stringify({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time})
