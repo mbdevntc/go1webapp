@@ -1,15 +1,19 @@
-import { ManualCommands } from './components/ManualCommands.js';
-import { NavBar } from './components/NavBar.js';
-
-import './App.css';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
+import { ManualCommands } from './components/ManualCommands.js';
+import { NavBar } from './components/NavBar.js';
 import { isConnected, selectIsConnected } from './features/RobotSlice.js';
 import { Modes } from './components/Modes.js';
+
+import './App.css';
+import { useGamepad } from './hooks/useGamepad.js';
 
 function App() {
   const dispatch = useDispatch()
   const connected = useSelector(selectIsConnected)
+
+  const gamepads = useGamepad()
 
   useEffect(() => {
       const intervalID = setInterval(async () => {
@@ -28,11 +32,11 @@ function App() {
         <div className={`info ${connected ? "green" : "red"}`}>
           {connected ? "Robot connesso" : "Robot non connesso"}
         </div>
+        <div>{gamepads !== [] && gamepads[0].axes[0]}</div>
       </div>
     </div>
   );
 }
-
 export default App;
 
 /* 

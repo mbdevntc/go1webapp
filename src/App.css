@@ -41,13 +41,13 @@
 }
 
 .info.green {
-  background-color: rgb(179, 255, 185);
-  color: rgb(0, 165, 14);
+  background-color: var(--success-light);
+  color: var(--success);
 }
 
 .info.red {
-  background-color: rgb(255, 179, 179);
-  color: rgb(165, 0, 0);
+  background-color: var(--alert-light);
+  color: var(--alert);
 }
 
 .main {
@@ -63,21 +63,17 @@
   padding: 5rem;
   display: flex;
   justify-content: space-around;
-  align-items: center;
+  align-items: flex-start;
   gap: 2rem;
 }
 
 .title {
   padding-block: .375rem;
   padding-inline: 1rem;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   border: 2px solid black;
   border-radius: .5rem;
 }
-
-/* .slider {
-  transform: rotate(270deg);
-} */
 
 .controller-block {
   height: 50%;
@@ -94,6 +90,7 @@
   grid-template-rows: repeat(4, 1fr);
   place-content: center;
   place-items: center;
+  gap: .25rem;
 }
 
 .controller-btn {
@@ -119,12 +116,18 @@
   width: 3.5rem;
 }
 
+.controller-btn.alert {
+  background-color: var(--alert-light);
+  color: var(--alert);
+  font-size: 1.5rem;
+}
+
 .controller-btn:hover {
-  background-color: rgb(206, 206, 206);
+  background-color: var(--light-gray);
 }
 
 .controller-btn:active {
-  background-color: rgb(104, 255, 117);
+  background-color: var(--success-light);
   transform: translateX(4px) translateY(4px);
   box-shadow: 0 0 transparent;
 }

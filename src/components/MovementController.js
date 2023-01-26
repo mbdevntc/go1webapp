@@ -35,6 +35,7 @@ export const MovementController = () => {
         move(0, 0 ,0, 100)
         clearInterval(intervalID)
     }
+
     return (
         <div className="controller-block">
             <Title title={"Movimento"} />
@@ -71,7 +72,13 @@ export const MovementController = () => {
                     onMouseUp={stop}
                 />
 
-                <div className="blank"></div>
+                {/* Pulsante stop */}
+                <ControllerBtn
+                    icon={"STOP"}
+                    className="alert"
+                    onMouseDown={stop}
+                    onMouseUp={stop}
+                />
 
                 {/* Pulsante destra */}
                 <ControllerBtn

@@ -10,7 +10,6 @@ export const isConnected = createAsyncThunk(
 	}
 )
 
-
 const options = {
 	name: 'robot',
 	initialState: {
@@ -19,6 +18,7 @@ const options = {
         lrSpeed: 0.25,
         turningSpeed: 0.25,
         currentMode: "standUp",
+		isLoading:	false,
 		hasError: false,
 	},
 	reducers: {
@@ -43,7 +43,7 @@ const options = {
 	},
 	extraReducers: builder => {
 		builder
-        .addCase(isConnected.pending, (state, action) => {
+        .addCase(isConnected.pending, state => {
 			state.isLoading = true
 			state.hasError = false
 		})
@@ -52,7 +52,7 @@ const options = {
 			state.isLoading = false
 			state.hasError = false
 		})
-		.addCase(isConnected.rejected, (state, action) => {
+		.addCase(isConnected.rejected, state => {
 			state.isLoading = false
 			state.hasError = true
 		})

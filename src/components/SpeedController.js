@@ -18,8 +18,8 @@ export const SpeedController = () => {
         <div className="controller-block">
             <Title title={"Velocità"} />
             <Slider label="Velocità movimento" value={speed} onChange={e => handleChangeSpeed(e, "speed")} />
-            <Slider label="Velocità rotazione" value={lrSpeed} onChange={e => handleChangeSpeed(e, "lrSpeed")} />
-            <Slider label="Velocità svolta" value={turningSpeed} onChange={e => handleChangeSpeed(e, "turningSpeed")} />
+            <Slider label="Velocità SX/DX" value={lrSpeed} onChange={e => handleChangeSpeed(e, "lrSpeed")} />
+            <Slider label="Velocità rotazione" value={turningSpeed} onChange={e => handleChangeSpeed(e, "turningSpeed")} />
         </div>
 
     )

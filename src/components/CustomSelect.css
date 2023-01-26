@@ -1,0 +1,120 @@
+.custom-select {
+    position: relative;
+    font-size: 1.25rem;
+    margin-left: -.25rem;
+    padding-inline-end: .5rem;
+    min-width: 12rem;
+    width: 100%;
+    max-width: 20rem;
+    border-radius: .25rem;
+    background-color: var(--light-gray);
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    user-select: none;
+    cursor: pointer;
+    transition: all 250ms;
+}
+
+.custom-select:is(:focus, :hover) {
+    background-color: var(--first-light);
+}
+
+.custom-select .custom-select-value {
+    padding-inline: .5rem;
+    padding-block: .25rem;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    display: inline;
+}
+
+.custom-select .custom-select-options {
+    position: absolute;
+    z-index: 10;
+    min-width: 8rem;
+    width: 100%;
+    max-width: 16rem;
+    max-height: 250px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    top: calc(100% + .5rem);
+    left: 0;
+
+    background-color: var(--white);
+    border: 2px solid var(--white);
+    box-shadow: 0 4px 15px 5px rgba(0, 0, 0, 0.05);
+    border-radius: .25rem;
+    padding: .5rem;
+
+    display: none;
+
+    transition: all 250ms;
+}
+
+.custom-select .custom-select-options.show {
+    animation: get-down 250ms forwards;
+    display: inline-block;
+}
+
+.custom-select .custom-select-options .custom-select-item {
+    width: 100%;
+    padding: .25rem;
+    border-radius: .25rem;
+    font-size: .875rem;
+    text-align: center;
+    overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    display: inline-block;
+    transition: all 250ms;
+}
+
+.custom-select .custom-select-options .custom-select-item:hover {
+    background-color: var(--first-light);
+}
+
+.custom-select .custom-select-options .custom-select-item.selected {
+    background-color: var(--third);
+    color: var(--white);
+}
+
+@keyframes get-down {
+    from {
+        opacity: 0;
+        transform: translateY(-0.75rem);
+      }
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+      }
+}
+
+.custom-select > .bi {
+    font-size: .75rem;
+}
+
+.labeled-input {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .25rem;
+}
+
+.labeled-input.end {
+    align-items: flex-end;
+}
+
+.labeled-input > input {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.labeled-input > label {
+    color: var(--dark-gray);
+    font-size: .875rem;
+}

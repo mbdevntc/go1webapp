@@ -40,6 +40,30 @@ app.get('/isConnected', async (req, res, next) => {
     }
 })
 
+// app.get('/mode', async (req, res, next) => {
+//     if(robot.mqtt.connected) {
+//         const mode = robot.getMode()
+//         res.status(200).json({ mode })  
+//     } else {
+//         const error = new Error('Cane robot non connesso')
+//         error.status = 404
+//         return next(error);
+//     }
+// })
+
+app.post('/mode', async (req, res, next) => {
+    if(robot.mqtt.connected) {
+        const { mode } = await req.body
+        robot.setMode(mode)
+        res.status(200).send("done")
+        
+    } else {
+        const error = new Error('Cane robot non connesso')
+        error.status = 404
+        return next(error);
+    }
+})
+
 app.post('/move', async (req, res, next) => {
     if(robot.mqtt.connected) {
         robot.setMode("walk")
