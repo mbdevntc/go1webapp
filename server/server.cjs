@@ -78,6 +78,20 @@ app.post('/move', async (req, res, next) => {
     }
 })
 
+app.post('/incline', async (req, res, next) => {
+    if(robot.mqtt.connected) {
+        robot.setMode("stand")
+        const { leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time } = await req.body
+        await robot.go(leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
+        res.status(200).send("done")
+        
+    } else {
+        const error = new Error('Cane robot non connesso')
+        error.status = 404
+        return next(error);
+    }
+})
+
 app.post('/lookUp', async (req, res, next) => {
     if(robot.mqtt.connected) {
         robot.setMode("stand")

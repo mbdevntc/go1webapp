@@ -5,6 +5,7 @@ export const ControllerBtn = ({ icon, onMouseDown, onMouseUp, className }) => {
         className={`controller-btn ${className || ""}`}
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
       >
         {icon}
       </button>

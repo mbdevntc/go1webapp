@@ -3,12 +3,30 @@ import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, 
 import { Title } from "./Title.js"
 import { useSelector } from "react-redux"
 import { selectLRSpeed, selectSpeed, selectTurningSpeed } from "../features/RobotSlice.js"
+import { useRef } from "react"
 
 
 export const MovementController = () => {
+    // const isConnected = useSelector(selectIsConnected)
+
     const speed = useSelector(selectSpeed)
     const lrSpeed = useSelector(selectLRSpeed)
     const turningSpeed = useSelector(selectTurningSpeed)
+    
+    let intervalID = useRef()
+    // const leftAnalogAxes = useSelector(selectGampadLeftAnalogAxes)
+    
+    // useEffect(() => {
+    //     if(isConnected) {
+    //         const fb = parseFloat(leftAnalogAxes[1])
+    //         const lr = parseFloat(leftAnalogAxes[0])
+    //         if(Math.abs(fb) > 0.1 || Math.abs(lr) > 0.1) {
+    //             move(0, lr, fb, 100)
+    //         } else {
+    //             move(0, 0 ,0, 100)
+    //         }
+    //     }
+    // })
 
     const move = async (leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
         const data = JSON.stringify({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time})
@@ -25,15 +43,15 @@ export const MovementController = () => {
         }
     }
     
-    let intervalID
     const continueMove = cb => {
         cb()
-        intervalID = setInterval(() => cb(), 275)
+        intervalID.current = setInterval(() => cb(), 275)
+        console.log(intervalID.current)
     }
-
+    
     const stop = () => {
         move(0, 0 ,0, 100)
-        clearInterval(intervalID)
+        clearInterval(intervalID.current)
     }
 
     return (

@@ -1,37 +1,39 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef } from "react"
+import { useDispatch } from "react-redux"
+import { resetGamepad, setGamepad } from "../features/RobotSlice.js"
 
 export const useGamepad = () => {
-    const [gamepads, setGamepads] = useState([{axes: [0, 0, 0, 0]}])
+    const dispatch = useDispatch()
+    // const gamepad = useSelector(selectGampad)
     let requestId = useRef(null)
-
-    const addGamepad = gamepad => {
-        setGamepads(prevGP => {return {...prevGP, [gamepad.index]: gamepad}})
-    }
-
-    const removeGamepad = index => {
-        setGamepads(prevGP => {return {...prevGP, [index]: null}})
-    }
     
     const connect = (e, log) => {
+        const gamepad = e.gamepad
         if(log === "complete") {
             console.log("Gamepad connected at index %d: %s. %d buttons, %d axes.",
-            e.gamepad.index, e.gamepad.id,
-            e.gamepad.buttons.length, e.gamepad.axes.length);
+            gamepad.index, gamepad.id,
+            gamepad.buttons.length, gamepad.axes.length);
         } else if (log === "short") {
             console.log("Gamepad connected")
         }
-        addGamepad(e.gamepad)
-        logAxes()
+        const axes = gamepad.axes
+            const buttons = []
+            for(let button of gamepad.buttons) {
+                buttons.push(button.value)
+            }
+        dispatch(setGamepad({ axes: axes, buttons: buttons }))
+        requestId.current = setInterval(start, 100)
     }
 
     const disconnect = (e, log) => {
+        const gamepad = e.gamepad
         if(log === "complete") {
-            console.log("Gamepad disconnected from index %d: %s", e.gamepad.index, e.gamepad.id);
+            console.log("Gamepad disconnected from index %d: %s", gamepad.index, gamepad.id);
         } else if (log === "short") {
             console.log("Gamepad disconnected")
         }
-        removeGamepad(e.gamepad.index)
-        cancelAnimationFrame(requestId)
+        dispatch(resetGamepad())
+        clearInterval(requestId.current)
     } 
 
     const connectionListener = ({ log }) => {
@@ -45,28 +47,27 @@ export const useGamepad = () => {
             disconnect(e, log)
         });
     }
-
-    const logAxes = () => {
-        console.log(window.navigator.getGamepads())
-        for(let gamepad of window.navigator.getGamepads()) {
-            if(gamepad) {
-                addGamepad(gamepad)
+    
+    const start = () => {
+        if(window.navigator.getGamepads()) {
+            const gamepad = window.navigator.getGamepads()[0]
+            const axes = gamepad.axes
+            const buttons = []
+            for(let button of gamepad.buttons) {
+                buttons.push(button.value)
             }
+            dispatch(setGamepad({ axes: axes, buttons: buttons }))
         }
-        const axes = gamepads ? gamepads[0].axes : []
-        console.log(axes)
-        requestId = requestAnimationFrame(logAxes)
+        
     }
 
     useEffect(() => {
         connectionListener({ log: "short"})
         disconnectionListener({ log: "short"})
         return () => {
-            console.log("ciao")
             window.removeEventListener("gamepadconnected", connect)
             window.removeEventListener("gamepaddiscconnected", disconnect)
         }
     })
 
-    return gamepads
 }
