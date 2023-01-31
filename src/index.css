@@ -77,3 +77,20 @@ input[type="range"] {
   border-radius: 100vmax;
 }
 
+.bg-first {
+  background-color: var(--first);
+}
+
+.bg-alert {
+  background-color: var(--alert);
+}
+
+.cl-white {
+  color: var(--white);
+}
+
+.btn {
+  border-radius: .375rem;
+  padding-block: .25rem;
+  padding-inline: .5rem;
+}

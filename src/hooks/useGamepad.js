@@ -4,8 +4,7 @@ import { resetGamepad, setGamepad } from "../features/RobotSlice.js"
 
 export const useGamepad = () => {
     const dispatch = useDispatch()
-    // const gamepad = useSelector(selectGampad)
-    let requestId = useRef(null)
+    let intervalId = useRef(null)
     
     const connect = (e, log) => {
         const gamepad = e.gamepad
@@ -22,7 +21,7 @@ export const useGamepad = () => {
                 buttons.push(button.value)
             }
         dispatch(setGamepad({ axes: axes, buttons: buttons }))
-        requestId.current = setInterval(start, 100)
+        intervalId.current = setInterval(start, 100)
     }
 
     const disconnect = (e, log) => {
@@ -33,7 +32,7 @@ export const useGamepad = () => {
             console.log("Gamepad disconnected")
         }
         dispatch(resetGamepad())
-        clearInterval(requestId.current)
+        clearInterval(intervalId.current)
     } 
 
     const connectionListener = ({ log }) => {

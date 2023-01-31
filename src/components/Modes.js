@@ -1,24 +1,29 @@
 import { useDispatch, useSelector } from "react-redux"
-import { changeMode, selectCurrentMode } from "../features/RobotSlice.js"
+import { changeMode, selectCurrentMode, selectIsConnected } from "../features/RobotSlice.js"
 import { CustomSelect } from "./CustomSelect.js"
 
-
+// Componente per modificare la modalità del cane robot
 export const Modes = () => {
     const dispatch = useDispatch()
+    const isConnected = useSelector(selectIsConnected)
     const currentMode = useSelector(selectCurrentMode)
 
+    // Funzione per inviare al server la modalità che il cane robot dovrà assumere
     const changeRobotMode = async (mode) => {
-        const data = JSON.stringify({ mode })
-        try {
-            const res = await fetch("http://localhost:4001/mode", {
-                headers: {'Content-Type': 'application/json'},
-                method: 'POST',
-                body: data
-            })
-            return res
-        } catch(e) {
-            console.log(e)
+        if(isConnected) {
+            const data = JSON.stringify({ mode })
+            try {
+                const res = await fetch("http://localhost:4001/mode", {
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'POST',
+                    body: data
+                })
+                return res
+            } catch(e) {
+                console.log(e)
+            }
         }
+
     }
 
     const handleChangeMode = mode => {
@@ -26,6 +31,7 @@ export const Modes = () => {
         changeRobotMode(mode)
     }
 
+    // Lista delle possibili modalità del cane robot
     const modes = [
         {label: "Walk", value: "walk"},
         {label: "Stand Up", value: "standUp"},

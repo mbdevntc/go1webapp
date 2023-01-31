@@ -2,76 +2,56 @@ import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight } from "../utils/icons.js"
 import { Title } from "./Title.js"
 import { useRef } from "react"
+import { selectCurrentMode, selectIsConnected } from "../features/RobotSlice.js"
+import { useSelector } from "react-redux"
 
-
+// Le parti di codice commentate sono necessarie per poter utilizzare il Joystick
 export const InclinationController = () => {
     let intervalID = useRef()
-    // const rightAnalogAxes = useSelector(selectGampadRightAnalogAxes)
-    // const isConnected = useSelector(selectIsConnected)
-    // const currentMode = useSelector(selectCurrentMode)
+    const isConnected = useSelector(selectIsConnected)
+    const currentMode = useSelector(selectCurrentMode)
     
+    // const rightAnalogAxes = useSelector(selectGamepadRightAnalogAxes)
     // useEffect(() => {
     //     if(isConnected && currentMode === "stand") {
-    //         const inclination = parseFloat(rightAnalogAxes[1])
-    //         const lean = parseFloat(rightAnalogAxes[0])
-    //         if(Math.abs(inclination) > 0.1 || Math.abs(lean) > 0.1) {
-    //             handleInclination(lean, inclination, 100)
+    //         const lookUpDown = parseFloat(rightAnalogAxes[1])
+    //         const leanLR = parseFloat(rightAnalogAxes[0])
+    //         if(Math.abs(lookUpDown) > 0.1 || Math.abs(leanLR) > 0.1) {
+    //             incline(leanLR, lookUpDown, 100)
     //         } else {
-    //             handleInclination(0, 0 ,0, 100)
+    //             incline(0, 0, 0, 100)
     //         }
     //     }
     // })
 
-    // const handleInclination = async (lean, incline, time) => {
-    //     const data = JSON.stringify({ leftRightspeed: lean, turnLeftRightSpeed: 0, forwardBackwardSpeed: incline, time})
-    //     try {
-    //         const res = await fetch("http://localhost:4001/incline", {
-    //             headers: {'Content-Type': 'application/json'},
-    //             method: 'POST',
-    //             body: data
-    //         })
-    //         console.log(res)
-    //         return res
-    //     } catch(e) {
-    //         console.log(e)
-    //     }
-    // }
-
-    const incline = async (inclination, time) => {
-        const data = JSON.stringify({ speed: 1, time })
-        const incline = inclination ? "lookUp" : "lookDown"
-        try {
-            const res = await fetch(`http://localhost:4001/${incline}`, {
-                headers: {'Content-Type': 'application/json'},
-                method: 'POST',
-                body: data
-            })
-            return res
-        } catch(e) {
-            console.log(e)
+    // Invio dei dati relativi all'inclinazione del cane al server
+    const incline = async (leanLR, twistLR, lookUpDown, time) => {
+        // Verifica della connessione con il cane robot e che la modalità si impostata su posizione statica
+        if(isConnected && currentMode === "stand") {
+            // Formattazione dei dati in JSON
+            const data = JSON.stringify({ leanLR, twistLR, lookUpDown, time })
+            try {
+                // Invio dei dati e attesa della risposta del server
+                const res = await fetch("http://localhost:4001/incline", {
+                    headers: {'Content-Type': 'application/json'},
+                    method: 'POST',
+                    body: data
+                })
+                return res
+            } catch(e) {
+                console.log(e)
+            }
         }
     }
 
-    const lean = async (leanLR, time) => {
-        const data = JSON.stringify({ speed: 1, time })
-        const lean = leanLR ? "leanLeft" : "leanRight"
-        try {
-            const res = await fetch(`http://localhost:4001/${lean}`, {
-                headers: {'Content-Type': 'application/json'},
-                method: 'POST',
-                body: data
-            })
-            return res
-        } catch(e) {
-            console.log(e)
-        }
-    }
-
+    // Funzione per inviare ad intervalli regolari le informazioni di inclinazione 
+    // se il pulsante viene mantenuto premuto
     const continueMove = cb => {
         cb()
         intervalID.current = setInterval(() => cb(), 275)
     }
 
+    // Funzione eseguita al rilascio del pulsante
     const stop = () => clearInterval(intervalID.current)
 
     return (
@@ -81,25 +61,25 @@ export const InclinationController = () => {
                 <div className="blank"></div>
                 <ControllerBtn
                     icon={arrowUp}
-                    onMouseDown={() => continueMove(() => incline(false, 250))}
+                    onMouseDown={() => continueMove(() => incline(0, 0, -1, 250))}
                     onMouseUp={stop}
                 />
                 <div className="blank"></div>
                 <ControllerBtn
                     icon={arrowLeft}
-                    onMouseDown={() => continueMove(() => lean(true, 250))}
+                    onMouseDown={() => continueMove(() => incline(-1, 0, 0, 250))}
                     onMouseUp={stop}
                 />
                 <div className="blank"></div>
                 <ControllerBtn
                     icon={arrowRight}
-                    onMouseDown={() => continueMove(() => lean(false, 250))}
+                    onMouseDown={() => continueMove(() => incline(1, 0, 0, 250))}
                     onMouseUp={stop}
                 />
                 <div className="blank"></div>
                 <ControllerBtn
                     icon={arrowDown}
-                    onMouseDown={() => continueMove(() => incline(true, 250))}
+                    onMouseDown={() => continueMove(() => incline(0, 0, 1, 250))}
                     onMouseUp={stop}
                 />
                 <div className="blank"></div>

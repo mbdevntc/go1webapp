@@ -3,7 +3,7 @@ import { changeSpeed, selectLRSpeed, selectSpeed, selectTurningSpeed } from "../
 import { Slider } from "./Slider.js"
 import { Title } from "./Title.js"
 
-
+// Componente per gestire le diverse velocità degli attuatori del cane robot
 export const SpeedController = () => {
     const dispatch = useDispatch()
     const speed = useSelector(selectSpeed)
@@ -17,8 +17,8 @@ export const SpeedController = () => {
     return (
         <div className="controller-block">
             <Title title={"Velocità"} />
-            <Slider label="Velocità movimento" value={speed} onChange={e => handleChangeSpeed(e, "speed")} />
-            <Slider label="Velocità SX/DX" value={lrSpeed} onChange={e => handleChangeSpeed(e, "lrSpeed")} />
+            <Slider label="Velocità di avanzamento" value={speed} onChange={e => handleChangeSpeed(e, "speed")} />
+            <Slider label="Velocità traslazione SX/DX" value={lrSpeed} onChange={e => handleChangeSpeed(e, "lrSpeed")} />
             <Slider label="Velocità rotazione" value={turningSpeed} onChange={e => handleChangeSpeed(e, "turningSpeed")} />
         </div>
 

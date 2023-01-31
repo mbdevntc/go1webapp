@@ -2,24 +2,6 @@ if(process.env.NODE_ENV !== 'production'){
     require('dotenv').config()
 }
 
-/* 
-Aggiungere il seguente codice al file go1-mqtt.js per verificare quando il cane si disconnette:
-
-CODE:
-#######
-this.client.on("disconnect", () => {
-    console.log("disconnected");
-    this.connected = false;
-});
-
-this.client.on("offline", () => {
-    console.log("disconnected");
-    this.connected = false;
-});
-#######
-
-*/
-
 const express = require('express')
 const app = express()
 const cors = require('cors')
@@ -32,7 +14,7 @@ app.use(bodyParser.json())
 const robot = new Go1()
 robot.setMode("standUp")
 
-app.get('/isConnected', async (req, res, next) => {
+app.get('/isConnected', async (req, res) => {
     if(robot.mqtt.connected) {
         res.status(200).json({ connected: true })
     } else {
@@ -81,8 +63,8 @@ app.post('/move', async (req, res, next) => {
 app.post('/incline', async (req, res, next) => {
     if(robot.mqtt.connected) {
         robot.setMode("stand")
-        const { leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time } = await req.body
-        await robot.go(leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
+        const { leanLR, twistLR, lookUpDown, time } = await req.body
+        await robot.incline(leanLR, twistLR, lookUpDown, time)
         res.status(200).send("done")
         
     } else {
@@ -153,3 +135,21 @@ app.use((err, req, res, next) => {
 app.listen(process.env.SERVER_PORT, () => {
     console.log(`Server is listening on port ${process.env.SERVER_PORT}` )
 })
+
+/* 
+Aggiungere il seguente codice al file go1-mqtt.js per verificare quando il cane si disconnette:
+
+CODE:
+#######
+this.client.on("disconnect", () => {
+    console.log("disconnected");
+    this.connected = false;
+});
+
+this.client.on("offline", () => {
+    console.log("disconnected");
+    this.connected = false;
+});
+#######
+
+*/

@@ -21,9 +21,8 @@ const options = {
         speed: 0, 
         lrSpeed: 0,
         turningSpeed: 0,
-		inclination: 0,
-		lean: 0,
         currentMode: "standUp",
+		interactionMsg: [],
 		gamepad: {
 			leftAnalogAxes: [0, 0], 
 			rightAnalogAxes: [0, 0],
@@ -69,6 +68,26 @@ const options = {
         changeMode: (state, { payload }) => {
             state.currentMode = payload
         },
+		setInteractionMsg: (state, { payload }) => {
+			const msg = payload
+			const dateOptions = {
+				weeday: 'short',
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+				hour: 'numeric',
+				minute: 'numeric',
+			}
+			const interactionMsg = {
+				date: new Date().toLocaleDateString(undefined, dateOptions),
+				msg,
+
+			}
+			state.interactionMsg.push(interactionMsg)
+		},
+		resetInteractionMsg: (state, { payload }) => {
+			state.interactionMsg.splice(payload, 1)
+		},
 		setGamepad: (state, { payload }) => {
 			const { axes, buttons } = payload
 			state.gamepad = {
@@ -104,23 +123,23 @@ const options = {
 				leftAnalogAxes: [0, 0], 
 				rightAnalogAxes: [0, 0],
 				buttons: {
-					'a': 0, // buttons[0]
-					'b': 0, // buttons[1]
-					'x': 0, // buttons[2]
-					'y': 0, // buttons[3]
-					'lb': 0, // buttons[4]
-					'rb': 0, // buttons[5]
-					'lt': 0, // buttons[6] float
-					'rt': 0, // buttons[7] float
-					'select': 0, // buttons[8]
-					'start': 0, // buttons[9]
-					'leftPad': 0, // buttons[10]
-					'rightPad': 0, // buttons[11]
-					'up': 0, // buttons[12]
-					'down': 0, // buttons[13]
-					'left': 0, // buttons[14]
-					'right': 0, // buttons[15]
-					'main': 0, // buttons[16] XBOX/PS button
+					'a': 0, 
+					'b': 0, 
+					'x': 0, 
+					'y': 0, 
+					'lb': 0, 
+					'rb': 0, 
+					'lt': 0, 
+					'rt': 0, 
+					'select': 0, 
+					'start': 0, 
+					'leftPad': 0, 
+					'rightPad': 0, 
+					'up': 0, 
+					'down': 0, 
+					'left': 0, 
+					'right': 0, 
+					'main': 0,
 				}
 			}
 		}
@@ -150,17 +169,26 @@ export default robot.reducer
 export const {
     changeSpeed,
     changeMode,
+	setInteractionMsg,
+	resetInteractionMsg,
 	setGamepad,
 	resetGamepad
 } = robot.actions
 
+// Connection and robot mode info selectors
 export const selectIsConnected = state => state.robot.connected
+export const selectCurrentMode = state => state.robot.currentMode
+
+// Speed selectors
 export const selectSpeed = state => state.robot.speed
 export const selectLRSpeed = state => state.robot.lrSpeed
-export const selectInclination = state => state.robot.inclination
-export const selectLean = state => state.robot.lean
 export const selectTurningSpeed = state => state.robot.turningSpeed
-export const selectCurrentMode = state => state.robot.currentMode
-export const selectGampad = state => state.robot.gamepad
-export const selectGampadLeftAnalogAxes = state => state.robot.gamepad.leftAnalogAxes
-export const selectGampadRightAnalogAxes = state => state.robot.gamepad.rightAnalogAxes
+
+// Interaction messages selectors
+export const selectInteractionMsg = state => state.robot.interactionMsg
+// export const selectInteractionMsg = state => state.robot.interactionMsg[state.robot.interactionMsg.length - 1]
+
+// Gamepad selectors
+export const selectGamepad = state => state.robot.gamepad
+export const selectGamepadLeftAnalogAxes = state => state.robot.gamepad.leftAnalogAxes
+export const selectGamepadRightAnalogAxes = state => state.robot.gamepad.rightAnalogAxes

@@ -1,13 +1,13 @@
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import { selectCurrentMode, selectGampadLeftAnalogAxes, selectGampadRightAnalogAxes, selectIsConnected } from "../features/RobotSlice.js"
+import { selectCurrentMode, selectGamepadLeftAnalogAxes, selectGamepadRightAnalogAxes, selectIsConnected } from "../features/RobotSlice.js"
 import { useGamepad } from "../hooks/useGamepad.js"
 
 export const Gamepad = () => {
     useGamepad()
     const isConnected = useSelector(selectIsConnected)
-    const leftAnalogAxes = useSelector(selectGampadLeftAnalogAxes)
-    const rightAnalogAxes = useSelector(selectGampadRightAnalogAxes)
+    const leftAnalogAxes = useSelector(selectGamepadLeftAnalogAxes)
+    const rightAnalogAxes = useSelector(selectGamepadRightAnalogAxes)
     const currentMode = useSelector(selectCurrentMode)
     const mode = useSelector(selectCurrentMode)
     
@@ -22,18 +22,18 @@ export const Gamepad = () => {
             }
         }
         if(isConnected && currentMode === "stand") {
-            const inclination = parseFloat(rightAnalogAxes[1])
-            const lean = parseFloat(rightAnalogAxes[0])
-            if(Math.abs(inclination) > 0.1 || Math.abs(lean) > 0.1) {
-                control(lean, 0, inclination, 100, "incline")
+            const lookUpDown = parseFloat(rightAnalogAxes[1])
+            const leanLR = parseFloat(rightAnalogAxes[0])
+            if(Math.abs(lookUpDown) > 0.1 || Math.abs(leanLR) > 0.1) {
+                control(leanLR, 0, lookUpDown, 100, "incline")
             } else {
                 control(0, 0, 0, 100, "incline")
             }
         }
     })
 
-    const control = async (leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time, mode) => {
-        const data = JSON.stringify({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time})
+    const control = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time, mode) => {
+        const data = JSON.stringify({ leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time})
         try {
             const res = await fetch(`http://localhost:4001/${mode}`, {
                 headers: {'Content-Type': 'application/json'},
@@ -45,5 +45,6 @@ export const Gamepad = () => {
             console.log(e)
         }
     }
-    return
+
+    return null
 }
