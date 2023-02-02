@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
-import { resetGamepad, setGamepad } from "../features/RobotSlice.js"
+import { resetGamepad, setGamepad } from "../features/GamepadSlice.js"
 
 export const useGamepad = () => {
     const dispatch = useDispatch()

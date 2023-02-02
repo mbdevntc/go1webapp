@@ -12,6 +12,7 @@ import { MessagesStack } from './components/MessagesStack.js';
 
 // Per poter utilizzare il Joystick scommentare il componente Gamepad e le 
 // parti di codice presenti nei componenti MovementController e InclinationController
+// e importare le funzioni necessarie :)
 function App() {
   const dispatch = useDispatch()
   const connected = useSelector(selectIsConnected)
