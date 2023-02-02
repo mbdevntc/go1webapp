@@ -5,7 +5,7 @@ import { SpeedController } from "./SpeedController.js"
 export const Controllers = () => {
 
     return (
-        <div className="main-interaction">
+        <div className="main-controllers">
             <MovementController />
             <InclinationController />
             <SpeedController />

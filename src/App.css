@@ -1,5 +1,4 @@
 .App {
-  width: 100vw;
   height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
@@ -33,7 +32,39 @@
   font-weight: 600;
 }
 
+.main {
+  grid-area: main;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 3fr 1fr;
+  grid-template-areas: "mode"
+                       "controllers"
+                       "status";
+  align-items: center;
+  gap: 2rem;
+}
+
+.main-modes {
+  grid-area: mode;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  gap: 2rem;
+}
+
+.main-controllers {
+  grid-area: controllers;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 2rem;
+}
+
 .info {
+  grid-area: status;
   padding: 1rem;
   justify-self: center;
   text-align: center;
@@ -50,23 +81,6 @@
   color: var(--alert);
 }
 
-.main {
-  grid-area: main;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 3fr 1fr;
-  align-items: center;
-  gap: 2rem;
-}
-
-.main-interaction {
-  padding: 5rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: flex-start;
-  gap: 2rem;
-}
-
 .title {
   padding-block: .375rem;
   padding-inline: 1rem;
@@ -76,7 +90,7 @@
 }
 
 .controller-block {
-  height: 50%;
+  /* height: 50%; */
   display: flex;
   flex-direction: column;
   justify-content: stretch;

@@ -8,6 +8,8 @@
     max-width: 20rem;
     border-radius: .25rem;
     background-color: var(--light-gray);
+    box-shadow: 0 4px 15px 5px rgba(0, 0, 0, 0.05);
+
     display: flex;
     justify-content: stretch;
     align-items: center;
@@ -18,6 +20,7 @@
 
 .custom-select:is(:focus, :hover) {
     background-color: var(--first-light);
+    box-shadow: 0 4px 15px 5px rgb(229, 235, 255, .5);
 }
 
 .custom-select .custom-select-value {

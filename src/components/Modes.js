@@ -47,14 +47,12 @@ export const Modes = () => {
     ]
 
     return (
-        <div className="main-interaction">
-            <CustomSelect
-                id={"select-mode"}
-                value={currentMode}
-                onChange={handleChangeMode}
-                options={modes}
-                label={"Modalità robot"}
-            />
-        </div>
+        <CustomSelect
+            id={"select-mode"}
+            value={currentMode}
+            onChange={handleChangeMode}
+            options={modes}
+            label={"Modalità robot"}
+        />
     )
 }

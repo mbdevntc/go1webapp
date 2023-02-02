@@ -1,0 +1,50 @@
+.microphone {
+    width: 30%;
+    height: 2.5rem;
+    background-color: var(--light-gray);
+    border-radius: .25rem;
+    box-shadow: 0 4px 15px 5px rgba(0, 0, 0, 0.05);
+
+    display: grid;
+    grid-template-columns: 2.5rem auto;
+    grid-template-rows: 1fr;
+    grid-template-areas: "mic-button mic-input";
+    gap: 0;
+}
+
+.mic-button {
+    grid-area: mic-button;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    color: black;
+    background-color: var(--gray);
+    border-radius: .25rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    transition: all 250ms;
+}
+
+.mic-button.recording {
+    color: var(--white);
+    background-color: var(--alert);
+}
+
+.mic-input {
+    grid-area: mic-input;
+
+    height: 100%;
+    padding-inline: .5rem;
+    border-radius: .25rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
