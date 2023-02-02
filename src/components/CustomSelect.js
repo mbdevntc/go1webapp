@@ -1,5 +1,5 @@
 import { useRef } from 'react'
-import './CustomSelect.css'
+import './style/CustomSelect.css'
 
 export const CustomSelect = ({ id, value, onChange, options, className, label, align }) => {
     const optionRef = useRef()
@@ -97,5 +97,5 @@ export const CustomSelect = ({ id, value, onChange, options, className, label, a
         </div>
     )
 }
-// Manca lo scroll verso l'elemento selezionato e la possibilità di scrivere per cercare
+// Manca lo scroll verso l'elemento selezionato
 // Aggiungere se si vuole la rotazione della freccetta

@@ -1,15 +1,19 @@
+import { useRef } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight } from "../utils/icons.js"
 import { Title } from "./Title.js"
-import { useRef } from "react"
-import { selectCurrentMode, selectIsConnected } from "../features/RobotSlice.js"
-import { useSelector } from "react-redux"
+import { selectCurrentMode, selectCurrentModeUser, selectIsConnected, setInteractionMsg } from "../features/RobotSlice.js"
 
 // Le parti di codice commentate sono necessarie per poter utilizzare il Joystick
 export const InclinationController = () => {
+    const dispatch = useDispatch()
     let intervalID = useRef()
     const isConnected = useSelector(selectIsConnected)
     const currentMode = useSelector(selectCurrentMode)
+    const currentModeUser = useSelector(selectCurrentModeUser)
+
+    // Joystick handler
     
     // const rightAnalogAxes = useSelector(selectGamepadRightAnalogAxes)
     // useEffect(() => {
@@ -27,7 +31,7 @@ export const InclinationController = () => {
     // Invio dei dati relativi all'inclinazione del cane al server
     const incline = async (leanLR, twistLR, lookUpDown, time) => {
         // Verifica della connessione con il cane robot e che la modalità si impostata su posizione statica
-        if(isConnected && currentMode === "stand") {
+        if(isConnected) {
             // Formattazione dei dati in JSON
             const data = JSON.stringify({ leanLR, twistLR, lookUpDown, time })
             try {
@@ -41,14 +45,31 @@ export const InclinationController = () => {
             } catch(e) {
                 console.log(e)
             }
+        } else  {
+            dispatch(setInteractionMsg({
+                msg: "Cane robot non connesso",
+                mode: "",
+                expiringIn: 5
+            }))
         }
     }
 
     // Funzione per inviare ad intervalli regolari le informazioni di inclinazione 
     // se il pulsante viene mantenuto premuto
     const continueMove = cb => {
-        cb()
-        intervalID.current = setInterval(() => cb(), 275)
+        // Verifica della modalità del cane. Nel caso non sia in modalità camminata, suggerisce
+        // all'utente di cambiare modalità, mediante un popup
+        if(currentMode === "stand") {
+            // Esecuzione della funzione per ridurre il tempo di esecuzione della stessa,
+            // dato che setInterval esegue il primo ciclo dopo il tempo indicato (275ms)
+            cb()
+            intervalID.current = setInterval(cb, 275)
+        } else  {
+            dispatch(setInteractionMsg({
+                msg: `Robot in modalità ${currentModeUser}. Passare in modalità Stand?`,
+                mode: "stand"
+            }))
+        }
     }
 
     // Funzione eseguita al rilascio del pulsante

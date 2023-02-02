@@ -16,7 +16,8 @@ function App() {
   const dispatch = useDispatch()
   const connected = useSelector(selectIsConnected)
 
-  // Verifica ogni 1000ms se il server è connesso al cane
+
+  // Verifica ogni secondo se il server è connesso al cane
   useEffect(() => {
       const intervalID = setInterval(async () => {
         dispatch(isConnected())

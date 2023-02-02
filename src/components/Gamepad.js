@@ -3,6 +3,9 @@ import { useSelector } from "react-redux"
 import { selectCurrentMode, selectGamepadLeftAnalogAxes, selectGamepadRightAnalogAxes, selectIsConnected } from "../features/RobotSlice.js"
 import { useGamepad } from "../hooks/useGamepad.js"
 
+// Componente che permette di utilizzare il joystick per controllare
+// il cane robot
+
 export const Gamepad = () => {
     useGamepad()
     const isConnected = useSelector(selectIsConnected)
@@ -18,7 +21,7 @@ export const Gamepad = () => {
             if(Math.abs(fb) > 0.1 || Math.abs(lr) > 0.1) {
                 control(0, lr, fb, 100, "move")
             } else {
-                control(0, 0 ,0, 100, "move")
+                control(0, 0, 0, 100, "move")
             }
         }
         if(isConnected && currentMode === "stand") {

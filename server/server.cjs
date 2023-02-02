@@ -22,17 +22,6 @@ app.get('/isConnected', async (req, res) => {
     }
 })
 
-// app.get('/mode', async (req, res, next) => {
-//     if(robot.mqtt.connected) {
-//         const mode = robot.getMode()
-//         res.status(200).json({ mode })  
-//     } else {
-//         const error = new Error('Cane robot non connesso')
-//         error.status = 404
-//         return next(error);
-//     }
-// })
-
 app.post('/mode', async (req, res, next) => {
     if(robot.mqtt.connected) {
         const { mode } = await req.body
@@ -135,21 +124,3 @@ app.use((err, req, res, next) => {
 app.listen(process.env.SERVER_PORT, () => {
     console.log(`Server is listening on port ${process.env.SERVER_PORT}` )
 })
-
-/* 
-Aggiungere il seguente codice al file go1-mqtt.js per verificare quando il cane si disconnette:
-
-CODE:
-#######
-this.client.on("disconnect", () => {
-    console.log("disconnected");
-    this.connected = false;
-});
-
-this.client.on("offline", () => {
-    console.log("disconnected");
-    this.connected = false;
-});
-#######
-
-*/

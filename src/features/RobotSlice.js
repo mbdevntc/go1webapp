@@ -16,13 +16,15 @@ export const isConnected = createAsyncThunk(
 
 const options = {
 	name: 'robot',
-	initialState: {
+	initialState: { // Stato iniziale dell'applicazione
         connected: false,
         speed: 0, 
         lrSpeed: 0,
         turningSpeed: 0,
         currentMode: "standUp",
+		currentModeUser: "Stand Up",
 		interactionMsg: [],
+		messages: 0,
 		gamepad: {
 			leftAnalogAxes: [0, 0], 
 			rightAnalogAxes: [0, 0],
@@ -50,8 +52,8 @@ const options = {
 		hasError: false,
 	},
 	reducers: {
-        changeSpeed: (state, { payload }) => {
-			switch(payload.speedType) {
+        changeSpeed: (state, { payload }) => { // Funzione che permette di modificare una delle tre diverse
+			switch(payload.speedType) {        // velocità degli attuatori del cane robot (nello stato dell'applicazione)
 				case "speed":
 					state.speed = payload.speed
 					break
@@ -65,11 +67,48 @@ const options = {
 					break
 			}
         },
-        changeMode: (state, { payload }) => {
-            state.currentMode = payload
+        changeMode: (state, { payload }) => { // Funzione che permette di cambiare modalità del cane robot
+            state.currentMode = payload		  // (nello stato dell'applicazione)
+			switch (payload) {
+				case "walk":
+					state.currentModeUser = "Walk";
+					break
+				case "standUp":
+					state.currentModeUser = "Stand Up";
+					break
+				case "standDown":
+					state.currentModeUser = "Lie Down";
+					break
+				case "damping":
+					state.currentModeUser = "Damping";
+					break
+				case "run":
+					state.currentModeUser = "Run";
+					break
+				case "climb":
+					state.currentModeUser = "Climb";
+					break
+				case "stand":
+					state.currentModeUser = "Stand";
+					break
+				case "recoverStand":
+					state.currentModeUser = "Recover Stand";
+					break
+				case "straightHand1":
+					state.currentModeUser = "Cheers";
+					break
+				case "dance1":
+					state.currentModeUser = "Dance 1";
+					break
+				case "dance2":
+					state.currentModeUser = "Dance 2";
+					break
+				default:
+					break
+			}
         },
-		setInteractionMsg: (state, { payload }) => {
-			const msg = payload
+		setInteractionMsg: (state, { payload }) => {  // Funzione che permette di creare una nuova notifica
+			const { msg, mode, expiringIn } = payload
 			const dateOptions = {
 				weeday: 'short',
 				year: 'numeric',
@@ -79,17 +118,27 @@ const options = {
 				minute: 'numeric',
 			}
 			const interactionMsg = {
+				id: state.messages,
 				date: new Date().toLocaleDateString(undefined, dateOptions),
 				msg,
-
+				mode,
+				secondsRemaining: expiringIn || 10,
 			}
 			state.interactionMsg.push(interactionMsg)
+			state.messages++
 		},
-		resetInteractionMsg: (state, { payload }) => {
-			state.interactionMsg.splice(payload, 1)
+		decrementTime: (state, { payload }) => { 	// Funzione necessaria a decrementare il tempo rimanente
+			for(let msg of state.interactionMsg) {  // alla visualizzazione di una notifica
+				if (msg.id === payload) {
+					msg.secondsRemaining -= 1
+				}
+			}
 		},
-		setGamepad: (state, { payload }) => {
-			const { axes, buttons } = payload
+		resetInteractionMsg: (state, { payload }) => { // Eliminazione di una notifica dopo che il suo tempo è scaduto
+			state.interactionMsg = state.interactionMsg.filter(msg => msg.id !== payload)
+		},
+		setGamepad: (state, { payload }) => { // Funzione che permette di gestire lo stato attuale
+			const { axes, buttons } = payload // dei controlli del gamepad
 			state.gamepad = {
 				leftAnalogAxes: [round(axes[0]), -round(axes[1])], 
 				rightAnalogAxes: [round(axes[2]), round(axes[3])],
@@ -118,8 +167,8 @@ const options = {
 			state.inclination = Math.abs(round(axes[3])) > 0.1 ? Math.abs(round(axes[3])) : 0
 			state.lean = Math.abs(round(axes[2])) > 0.1 ? Math.abs(round(axes[2])) : 0
 		},
-		resetGamepad: state => {
-			state.gamepad = {
+		resetGamepad: state => { // Funzione che permette di resettare lo stato del gamepad
+			state.gamepad = {    // quando questo viene disconnesso
 				leftAnalogAxes: [0, 0], 
 				rightAnalogAxes: [0, 0],
 				buttons: {
@@ -171,6 +220,7 @@ export const {
     changeMode,
 	setInteractionMsg,
 	resetInteractionMsg,
+	decrementTime,
 	setGamepad,
 	resetGamepad
 } = robot.actions
@@ -178,6 +228,7 @@ export const {
 // Connection and robot mode info selectors
 export const selectIsConnected = state => state.robot.connected
 export const selectCurrentMode = state => state.robot.currentMode
+export const selectCurrentModeUser = state => state.robot.currentModeUser
 
 // Speed selectors
 export const selectSpeed = state => state.robot.speed
@@ -186,7 +237,7 @@ export const selectTurningSpeed = state => state.robot.turningSpeed
 
 // Interaction messages selectors
 export const selectInteractionMsg = state => state.robot.interactionMsg
-// export const selectInteractionMsg = state => state.robot.interactionMsg[state.robot.interactionMsg.length - 1]
+// export const getMsgRemainingTime = (state, msgId) => state.robot.interactionMsg.filter(msg => msg.id === msgId).secondsRemaining
 
 // Gamepad selectors
 export const selectGamepad = state => state.robot.gamepad

@@ -2,11 +2,9 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
 
 :root {
-  --first: rgb(25, 70, 232);
+  --first: rgb(43, 83, 230);
   --first-light: rgb(229, 235, 255);
-  --first-t: rgba(25, 70, 232, 0.4);
   --second: rgb(255, 144, 179);
-  --second-light: rgb(255, 236, 242);
   --third: rgb(157, 178, 255);
   --white: rgb(255, 255, 255);
   --white-t: rgba(255, 255, 255, 0.733);
@@ -24,10 +22,13 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
+  font-weight: 500;
   border: none;
   outline: none;
   user-select: none;
 }
+
+/* SLIDER PRESETS */
 
 input[type="range"] { 
   -webkit-appearance: none;
@@ -55,7 +56,7 @@ input[type="range"] {
   box-shadow: -208px 0 0 200px black;
 }
 
-/* ---------- SCROLLBAR ---------- */
+/* SCROLLBAR PRESETS */
 
 ::-webkit-scrollbar {
   width: .5rem;
@@ -77,6 +78,18 @@ input[type="range"] {
   border-radius: 100vmax;
 }
 
+/* FONT WEIGHT */
+
+.fw-semibold {
+  font-weight: 600;
+}
+
+.fw-bold {
+  font-weight: 700;
+}
+
+/* BACKGROUND COLOR */
+
 .bg-first {
   background-color: var(--first);
 }
@@ -85,12 +98,35 @@ input[type="range"] {
   background-color: var(--alert);
 }
 
+/* COLOR */
+
 .cl-white {
   color: var(--white);
 }
 
+.cl-alert {
+  color: var(--alert);
+}
+
+.cl-gray {
+  color: var(--gray);
+}
+
+
 .btn {
+  border-radius: .25rem;
+  padding-block: .25rem;
+  padding-inline: 1rem;
+  transition: all 250ms;
+}
+
+.btn-sm {
   border-radius: .375rem;
   padding-block: .25rem;
   padding-inline: .5rem;
+  transition: all 250ms;
+}
+
+.btn:hover, .btn-sm:hover {
+  opacity: .8;
 }

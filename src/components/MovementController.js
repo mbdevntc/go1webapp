@@ -1,21 +1,24 @@
+import { useRef } from "react"
+import { useDispatch, useSelector } from "react-redux"
 import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, arrowRightUp, arrowRightDown } from "../utils/icons.js"
 import { Title } from "./Title.js"
-import { useSelector } from "react-redux"
-import { selectCurrentMode, selectIsConnected, selectLRSpeed, selectSpeed, selectTurningSpeed } from "../features/RobotSlice.js"
-import { useRef } from "react"
+import { selectCurrentMode, selectCurrentModeUser, selectIsConnected, selectLRSpeed, selectSpeed, selectTurningSpeed, setInteractionMsg } from "../features/RobotSlice.js"
 
 // Le parti di codice commentate sono necessarie per poter utilizzare il Joystick
 export const MovementController = () => {
+    const dispatch = useDispatch()
     const isConnected = useSelector(selectIsConnected)
     const currentMode = useSelector(selectCurrentMode)
+    const currentModeUser = useSelector(selectCurrentModeUser)
     const speed = useSelector(selectSpeed)                  // Velocità di avanzamento
     const lrSpeed = useSelector(selectLRSpeed)              // Velocità SX/DX
     const turningSpeed = useSelector(selectTurningSpeed)    // Velocità rotazione SX/DX
     
     let intervalID = useRef()
 
-    
+    // Joystick handler
+
     // const leftAnalogAxes = useSelector(selectGamepadLeftAnalogAxes)
     // useEffect(() => {
     //     if(isConnected&& currentMode === "walk") {
@@ -31,8 +34,8 @@ export const MovementController = () => {
 
     // Invio dei dati relativi al movimento che deve eseguire il cane al server
     const move = async (leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
-        // Verifica della connessione con il cane robot e che la modalità si impostata su cammminata
-        if(isConnected && currentMode === "walk") {
+        // Verifica della connessione con il cane robot
+        if(isConnected) {
             // Formattazione dei dati in JSON
             const data = JSON.stringify({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time })
             try {
@@ -46,23 +49,38 @@ export const MovementController = () => {
             } catch(e) {
                 console.log(e)
             }
+        } else  {
+            dispatch(setInteractionMsg({
+                msg: "Cane robot non connesso",
+                mode: "",
+                expiringIn: 5
+            }))
         }
     }
     
     // Funzione per inviare ad intervalli regolari le informazioni di movimento 
     // se il pulsante viene mantenuto premuto
     const continueMove = cb => {
-        // Esecuzione della funzione per ridurre il tempo di esecuzione della stessa,
-        // dato che setInterval esegue il primo ciclo dopo il tempo indicato (275ms)
-        cb()
-        intervalID.current = setInterval(cb, 275)
+        // Verifica della modalità del cane. Nel caso non sia in modalità camminata, suggerisce
+        // all'utente di cambiare modalità, mediante un popup
+        if(currentMode === "walk") {
+            // Esecuzione della funzione per ridurre il tempo di esecuzione della stessa,
+            // dato che setInterval esegue il primo ciclo dopo il tempo indicato (275ms)
+            cb()
+            intervalID.current = setInterval(cb, 275)
+        } else  {
+            dispatch(setInteractionMsg({
+                msg: `Robot in modalità ${currentModeUser}. Passare in modalità Walk?`,
+                mode: "walk"
+            }))
+        }
     }
     
     // Funzione che termina l'esecuzione del setInterval associato all'ID, in modo da non
     // creare intervalli che si sovrappongono e continuare ad eseguire all'infinito il codice
     // in essi presenti
     const stop = () => {
-        move(0, 0, 0, 100) // blocco di emergenza :)
+        if(isConnected) move(0, 0, 0, 100) // blocco di emergenza :)
         clearInterval(intervalID.current)
     }
 

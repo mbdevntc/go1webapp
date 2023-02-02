@@ -21,6 +21,9 @@ export const useGamepad = () => {
                 buttons.push(button.value)
             }
         dispatch(setGamepad({ axes: axes, buttons: buttons }))
+        // Aggiornamento dei dati del joystick effettuato ogni 100ms, poichè con requestAnimationFrame
+        // questo avveniva troppo velocemente (praticamente in tempo reale), quindi venivano effettuate
+        // troppe richieste di movimento al cane in pochissimo tempo, il quale non riesce a gestirle 
         intervalId.current = setInterval(start, 100)
     }
 
