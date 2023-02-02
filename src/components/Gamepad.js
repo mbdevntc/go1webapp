@@ -1,6 +1,7 @@
 import { useEffect } from "react"
 import { useSelector } from "react-redux"
-import { selectCurrentMode, selectGamepadLeftAnalogAxes, selectGamepadRightAnalogAxes, selectIsConnected } from "../features/GamepadSlice.js"
+import { selectGamepadLeftAnalogAxes, selectGamepadRightAnalogAxes } from "../features/GamepadSlice.js"
+import { selectCurrentMode, selectCurrentModeUser, selectIsConnected } from "../features/RobotSlice.js"
 import { useGamepad } from "../hooks/useGamepad.js"
 
 // Componente che permette di utilizzare il joystick per controllare
@@ -11,7 +12,7 @@ export const Gamepad = () => {
     const isConnected = useSelector(selectIsConnected)
     const leftAnalogAxes = useSelector(selectGamepadLeftAnalogAxes)
     const rightAnalogAxes = useSelector(selectGamepadRightAnalogAxes)
-    const currentMode = useSelector(selectCurrentMode)
+    const currentMode = useSelector(selectCurrentModeUser)
     const mode = useSelector(selectCurrentMode)
     
     useEffect(() => {

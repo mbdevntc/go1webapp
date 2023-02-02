@@ -8,7 +8,7 @@ import { Modes } from './components/Modes.js';
 
 import './App.css';
 import { MessagesStack } from './components/MessagesStack.js';
-// import { Gamepad } from './components/Gamepad.js';
+import { Gamepad } from './components/Gamepad.js';
 
 // Per poter utilizzare il Joystick scommentare il componente Gamepad e le 
 // parti di codice presenti nei componenti MovementController e InclinationController
@@ -35,7 +35,7 @@ function App() {
         <div className={`info ${connected ? "green" : "red"}`}>
           {connected ? "Robot connesso" : "Robot non connesso"}
         </div>
-        {/* <Gamepad /> */}
+        <Gamepad />
         <MessagesStack />
       </div>
     </div>
