@@ -1,4 +1,4 @@
-// Code to add to go1.js
+// Code to add to @droneblock/dist/go1.js - insert on line 183
 
 /**
          *
@@ -16,7 +16,7 @@ this.incline = (leanLR, twistLR, lookUpDown, lengthOfTime) => __awaiter(this, vo
 
 
 
-// Code to add to go1.d.ts
+// Code to add to @droneblock/dist/go1.d.ts - insert on line  126
 
 /**
      *
@@ -27,9 +27,9 @@ this.incline = (leanLR, twistLR, lookUpDown, lengthOfTime) => __awaiter(this, vo
      * @param lookUpDown - A value from -1 to 1
      * @param lengthOfTime - Length of time for movement in milliseconds
      */
-//incline: (leanLR: number, twistLR: number, lookUpDown: number, lengthOfTime: number) => Promise<void>; // ------- this line mist be uncommmented -------
+//incline: (leanLR: number, twistLR: number, lookUpDown: number, lengthOfTime: number) => Promise<void>; // ------- this line must be uncommmented -------
 
-// Code to add to go1-mqtt.js
+// Code to add to @droneblock/dist/go1-mqtt.js - insert on line 29
 
 this.client.on("disconnect", () => {
     console.log("disconnected");

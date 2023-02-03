@@ -5,11 +5,15 @@ const options = {
 	initialState: { // Stato iniziale dell'applicazione
 		recording: false,
         intermediateResult: "",
-        finalResult: ""
+        finalResult: "",
+        isFinal: false
 	},
 	reducers: {
 		toggleRecording: state => {
             state.recording = !state.recording
+        },
+        setIsFinal: (state, { payload }) => {
+            state.isFinal = payload
         },
         setIntermediateResult: (state, { payload }) => {
             state.intermediateResult = payload
@@ -26,12 +30,14 @@ export default mic.reducer
 
 export const {
 	toggleRecording,
+    setIsFinal,
     setIntermediateResult,
     setFinalResult
 } = mic.actions
 
-// Recording selector
+// Recording selectors
 export const selectRecordingStatus = state => state.mic.recording
+export const selectIsFinal = state => state.mic.isFinal
 
 // Recording result selectors
 export const selectIntermediateResult = state => state.mic.intermediateResult

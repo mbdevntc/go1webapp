@@ -1,22 +1,19 @@
 import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { selectRecordingStatus, setFinalResult, setIntermediateResult } from "../features/MicrophoneSlice.js"
+import { selectRecordingStatus, setFinalResult, setIntermediateResult, setIsFinal } from "../features/MicrophoneSlice.js"
 
 export const useRecognition = () => {
     const dispatch = useDispatch()
     const onAir = useSelector(selectRecordingStatus)
     const recognition = useRef(window.SpeechRecognition || new window.webkitSpeechRecognition())
 
-    const lowerize = string => {
-        return string.toLowerCase().split(" ")
-    }
-
     const handleResult = e => {
         const transcript = e.results[e.results.length - 1][0].transcript
-        console.log(transcript)
-        if(e.results.isFinal) {
+        if(e.results[e.results.length - 1].isFinal) {
+            dispatch(setIsFinal(true))
             dispatch(setFinalResult(transcript))
         } else {
+            dispatch(setIsFinal(false))
             dispatch(setIntermediateResult(transcript))
         }
     }
