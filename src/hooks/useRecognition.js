@@ -8,10 +8,17 @@ export const useRecognition = () => {
     const recognition = useRef(window.SpeechRecognition || new window.webkitSpeechRecognition())
 
     const handleResult = e => {
-        const transcript = e.results[e.results.length - 1][0].transcript
+        const r = recognition.current
+        let transcript = ""
+        // for(let result of e.results) {
+        for(let i = r.resultNum; i < e.results.length; i++) {
+            transcript += e.results[i][0].transcript
+        }
+        // transcript = e.results[e.results.length - 1][0].transcript
         if(e.results[e.results.length - 1].isFinal) {
             dispatch(setIsFinal(true))
             dispatch(setFinalResult(transcript))
+            r.resultNum++
         } else {
             dispatch(setIsFinal(false))
             dispatch(setIntermediateResult(transcript))
@@ -24,6 +31,7 @@ export const useRecognition = () => {
         r.continuous = true
         r.interimResults = true
         r.started = false
+        r.resultNum = 0
     }, [])
     
     useEffect(() => {
@@ -33,6 +41,7 @@ export const useRecognition = () => {
                 try {
                     r.addEventListener("result", handleResult)
                     r.started = true
+                    r.resultNum = 0
                     r.start()
                 } catch(e) {
                     console.log(e)

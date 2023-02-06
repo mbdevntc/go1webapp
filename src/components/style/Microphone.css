@@ -7,9 +7,10 @@
 
     display: grid;
     grid-template-columns: 2.5rem auto;
-    grid-template-rows: 1fr;
-    grid-template-areas: "mic-button mic-input";
-    gap: 0;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: "mic-button mic-input"
+                         "out-result out-result";
+    row-gap: .75rem;
 }
 
 .mic-button {
@@ -48,3 +49,27 @@
     justify-content: flex-start;
     align-items: center;
 }
+
+.mic-out-result {
+    grid-area: out-result;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+
+    position: relative;
+}
+
+.mic-out-result::after {
+    content: attr(data-text);
+    position: absolute;
+    width: 100%;
+    top: 60%;
+    left: 0;
+    color: transparent;
+    text-align: center;
+    transform: rotateX(140deg);
+    text-shadow: 0 0 4px rgb(0, 0, 0);
+    -webkit-mask-image: -webkit-gradient(linear, right top, right bottom, from(transparent), color-stop(20%, transparent), to(rgba(0, 0, 0, 0.4)));
+
+}
+

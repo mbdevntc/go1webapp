@@ -23,7 +23,6 @@ export const Modes = () => {
                 console.log(e)
             }
         }
-
     }
 
     const handleChangeMode = mode => {
