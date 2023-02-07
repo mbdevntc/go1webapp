@@ -14,9 +14,9 @@ const options = {
 	name: 'robot',
 	initialState: { // Stato iniziale dell'applicazione
         connected: false,
-        speed: 0, 
-        lrSpeed: 0,
-        turningSpeed: 0,
+        speed: 0.5, 
+        lrSpeed: 0.5,
+        turningSpeed: 0.5,
         currentMode: "standUp",
 		currentModeUser: "Stand Up",
 		interactionMsg: [],

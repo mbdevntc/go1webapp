@@ -5,6 +5,7 @@ import { selectRecordingStatus, setFinalResult, setIntermediateResult, setIsFina
 export const useRecognition = () => {
     const dispatch = useDispatch()
     const onAir = useSelector(selectRecordingStatus)
+
     const recognition = useRef(window.SpeechRecognition || new window.webkitSpeechRecognition())
 
     const handleResult = e => {
@@ -33,7 +34,7 @@ export const useRecognition = () => {
         r.started = false
         r.resultNum = 0
     }, [])
-    
+
     useEffect(() => {
         const r = recognition.current
         if(onAir) {
