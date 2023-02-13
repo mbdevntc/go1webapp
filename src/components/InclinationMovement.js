@@ -4,6 +4,7 @@ import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight } from "../utils/icons.js"
 import { Title } from "./Title.js"
 import { selectCurrentMode, selectCurrentModeUser, selectIsConnected, setInteractionMsg } from "../features/RobotSlice.js"
+import { inclineAPI } from "./utils.js"
 
 // Le parti di codice commentate sono necessarie per poter utilizzare il Joystick
 export const InclinationController = () => {
@@ -32,19 +33,7 @@ export const InclinationController = () => {
     const incline = async (leanLR, twistLR, lookUpDown, time) => {
         // Verifica della connessione con il cane robot e che la modalità si impostata su posizione statica
         if(isConnected) {
-            // Formattazione dei dati in JSON
-            const data = JSON.stringify({ leanLR, twistLR, lookUpDown, time })
-            try {
-                // Invio dei dati e attesa della risposta del server
-                const res = await fetch("http://localhost:4001/incline", {
-                    headers: {'Content-Type': 'application/json'},
-                    method: 'POST',
-                    body: data
-                })
-                return res
-            } catch(e) {
-                console.log(e)
-            }
+            const response = await inclineAPI(leanLR, twistLR, lookUpDown, time)
         } else  {
             dispatch(setInteractionMsg({
                 msg: "Cane robot non connesso",

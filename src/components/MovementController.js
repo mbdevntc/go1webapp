@@ -4,6 +4,7 @@ import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, arrowRightUp, arrowRightDown } from "../utils/icons.js"
 import { Title } from "./Title.js"
 import { selectCurrentMode, selectCurrentModeUser, selectIsConnected, selectLRSpeed, selectSpeed, selectTurningSpeed, setInteractionMsg } from "../features/RobotSlice.js"
+import { moveAPI } from "./utils.js"
 
 // Le parti di codice commentate sono necessarie per poter utilizzare il Joystick
 export const MovementController = () => {
@@ -33,22 +34,10 @@ export const MovementController = () => {
     // })
 
     // Invio dei dati relativi al movimento che deve eseguire il cane al server
-    const move = async (leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
+    const move = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
         // Verifica della connessione con il cane robot
         if(isConnected) {
-            // Formattazione dei dati in JSON
-            const data = JSON.stringify({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time })
-            try {
-                // Invio dei dati e attesa della risposta del server
-                const res = await fetch("http://localhost:4001/move", {
-                    headers: {'Content-Type': 'application/json'},
-                    method: 'POST',
-                    body: data
-                })
-                return res
-            } catch(e) {
-                console.log(e)
-            }
+            const response = await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
         } else  {
             dispatch(setInteractionMsg({
                 msg: "Cane robot non connesso",

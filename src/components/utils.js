@@ -1,3 +1,35 @@
+export const moveAPI = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
+    // Formattazione dei dati in JSON
+    const data = JSON.stringify({ leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time })
+    try {
+        // Invio dei dati e attesa della risposta del server
+        const res = await fetch("http://localhost:4001/move", {
+            headers: {'Content-Type': 'application/json'},
+            method: 'POST',
+            body: data
+        })
+        return res
+    } catch(e) {
+        console.log(e)
+    }
+}
+
+export const inclineAPI = async (leanLR, twistLR, lookUpDown, time) => {
+    // Formattazione dei dati in JSON
+    const data = JSON.stringify({ leanLR, twistLR, lookUpDown, time })
+    try {
+        // Invio dei dati e attesa della risposta del server
+        const res = await fetch("http://localhost:4001/incline", {
+            headers: {'Content-Type': 'application/json'},
+            method: 'POST',
+            body: data
+        })
+        return res
+    } catch(e) {
+        console.log(e)
+    }
+}
+
 const actions = {
     move: ["muov", "vai", "spost", "indietreggia", "avanza", "ferm", "stop"],
     rotate: ["ruot", "gir"],

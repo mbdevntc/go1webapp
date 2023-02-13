@@ -15,20 +15,6 @@ model = w.load_model("medium")
 engine = init()
 r = Recognizer()
 
-# def getTranscription(audio):  
-#    audio = w.load_audio(audio)
-#    audio = w.pad_or_trim(audio)
-   
-#    mel = w.log_mel_spectrogram(audio).to(model.device)
-   
-#    _, probs = model.detect_language(mel)
-   
-#    transcript_options = w.DecodingOptions(task="transcribe", language="it", fp16 = False)
-   
-#    transcription = w.decode(model, mel, transcript_options)
-#    print(transcription)
-#    return transcription.text
-
 def startRecognition():
     transcript = "Non ho capito"
     with Microphone() as source:

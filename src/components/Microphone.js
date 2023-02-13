@@ -6,7 +6,7 @@ import { useOfflineRecognition } from "../hooks/useOfflineRecognition.js"
 import { useRecognition } from "../hooks/useRecognition.js"
 import { disabledMic, mic } from "../utils/icons.js"
 import "./style/Microphone.css"
-import { getCommand } from "./utils.js"
+import { getCommand, inclineAPI, moveAPI } from "./utils.js"
 
 export const Microphone = () => {
     const dispatch = useDispatch()
@@ -25,22 +25,24 @@ export const Microphone = () => {
     const turningSpeed = useSelector(selectTurningSpeed)    // Velocità rotazione SX/DX
 
     // Invio dei dati relativi al movimento che deve eseguire il cane al server
-    const command = async (leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time, action) => {
+    const move = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
         // Verifica della connessione con il cane robot
         if(isConnected) {
-            // Formattazione dei dati in JSON
-            const data = JSON.stringify({ leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time })
-            try {
-                // Invio dei dati e attesa della risposta del server
-                const res = await fetch(`http://localhost:4001/${action}`, {
-                    headers: {'Content-Type': 'application/json'},
-                    method: 'POST',
-                    body: data
-                })
-                return res
-            } catch(e) {
-                console.log(e)
-            }
+            const response = await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
+        } else  {
+            dispatch(setInteractionMsg({
+                msg: "Cane robot non connesso",
+                mode: "",
+                expiringIn: 5
+            }))
+        }
+    }
+
+    // Invio dei dati relativi al movimento che deve eseguire il cane al server
+    const incline = async (leanLR, twistLR, lookUpDown, time) => {
+        // Verifica della connessione con il cane robot
+        if(isConnected) {
+            const response = await inclineAPI(leanLR, twistLR, lookUpDown, time)
         } else  {
             dispatch(setInteractionMsg({
                 msg: "Cane robot non connesso",
@@ -74,11 +76,11 @@ export const Microphone = () => {
             if(toDo[1] === "move") {
                 changeRobotMode("walk")
                 dispatch(changeMode("walk"))
-                command(lrSpeed * toDo[2], turningSpeed * toDo[3], speed * toDo[4], 500, "move")
+                move(lrSpeed * toDo[2], turningSpeed * toDo[3], speed * toDo[4], 250, "move")
             } else if (toDo[1] === "incline") {
                 changeRobotMode("stand")
                 dispatch(changeMode("stand"))
-                command(toDo[2], toDo[3], toDo[4], 500, "incline")
+                incline(toDo[2], toDo[3], toDo[4], 500, "incline")
             } else if(toDo[1] === "mode") {
                 changeRobotMode(toDo[2])
                 dispatch(changeMode(toDo[2]))

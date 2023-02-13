@@ -38,8 +38,8 @@ app.post('/mode', async (req, res, next) => {
 app.post('/move', async (req, res, next) => {
     if(robot.mqtt.connected) {
         robot.setMode("walk")
-        const { leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time } = await req.body
-        await robot.go(leftRightspeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
+        const { leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time } = await req.body
+        await robot.go(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
         res.status(200).send("done")
         
     } else {
