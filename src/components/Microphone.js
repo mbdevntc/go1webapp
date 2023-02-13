@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { selectFinalResult, selectIntermediateResult, selectIsFinal, selectOutputResult, selectRecordingStatus, setOutputResult, toggleRecording } from "../features/MicrophoneSlice.js"
+import { selectFinalResult, selectIntermediateResult, selectIsFinal, selectOutputResult, setOutputResult } from "../features/MicrophoneSlice.js"
 import { changeMode, selectIsConnected, selectLRSpeed, selectSpeed, selectTurningSpeed, setInteractionMsg } from "../features/RobotSlice.js"
+import { useOfflineRecognition } from "../hooks/useOfflineRecognition.js"
 import { useRecognition } from "../hooks/useRecognition.js"
 import { disabledMic, mic } from "../utils/icons.js"
 import "./style/Microphone.css"
@@ -9,11 +10,13 @@ import { getCommand } from "./utils.js"
 
 export const Microphone = () => {
     const dispatch = useDispatch()
-    const recording = useSelector(selectRecordingStatus)
     const intermediateResult = useSelector(selectIntermediateResult)
     const finalResult = useSelector(selectFinalResult)
     const isFinal = useSelector(selectIsFinal)
     const outputResult = useSelector(selectOutputResult)
+
+    // const { onAir, setOnAir } = useRecognition()
+    const { onAir, setOnAir } = useOfflineRecognition()
     
     const isConnected = useSelector(selectIsConnected)
     
@@ -62,13 +65,7 @@ export const Microphone = () => {
                 console.log(e)
             }
         }
-    }
-    
-    const handleToggleRecording = () => {
-        dispatch(toggleRecording())
-    }
-    
-    useRecognition()
+    }  
     
     useEffect(() => {
         if(isFinal) {
@@ -91,7 +88,7 @@ export const Microphone = () => {
 
     return (
         <div className="microphone">
-            <div className={`mic-button ${recording ? "recording" : ""}`} onClick={handleToggleRecording}>{recording ? mic : disabledMic}</div>
+            <div className={`mic-button ${onAir ? "recording" : ""}`} onClick={() => setOnAir(prev => !prev)}>{onAir ? mic : disabledMic}</div>
             <div className="mic-input">{isFinal ? finalResult : intermediateResult}</div>
             <div className="mic-out-result" data-text={outputResult}>{outputResult}</div>
         </div>

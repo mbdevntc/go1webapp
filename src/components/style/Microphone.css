@@ -70,6 +70,5 @@
     transform: rotateX(140deg);
     text-shadow: 0 0 4px rgb(0, 0, 0);
     -webkit-mask-image: -webkit-gradient(linear, right top, right bottom, from(transparent), color-stop(20%, transparent), to(rgba(0, 0, 0, 0.4)));
-
 }
 

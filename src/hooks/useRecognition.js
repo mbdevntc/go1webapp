@@ -1,21 +1,19 @@
-import { useEffect, useRef } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import { selectRecordingStatus, setFinalResult, setIntermediateResult, setIsFinal } from "../features/MicrophoneSlice.js"
+import { useEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
+import { setFinalResult, setIntermediateResult, setIsFinal, setOutputResult } from "../features/MicrophoneSlice.js"
 
 export const useRecognition = () => {
     const dispatch = useDispatch()
-    const onAir = useSelector(selectRecordingStatus)
+    const [ onAir, setOnAir ] = useState(false)
 
     const recognition = useRef(window.SpeechRecognition || new window.webkitSpeechRecognition())
 
     const handleResult = e => {
         const r = recognition.current
         let transcript = ""
-        // for(let result of e.results) {
         for(let i = r.resultNum; i < e.results.length; i++) {
             transcript += e.results[i][0].transcript
         }
-        // transcript = e.results[e.results.length - 1][0].transcript
         if(e.results[e.results.length - 1].isFinal) {
             dispatch(setIsFinal(true))
             dispatch(setFinalResult(transcript))
@@ -44,6 +42,7 @@ export const useRecognition = () => {
                     r.started = true
                     r.resultNum = 0
                     r.start()
+                    dispatch(setOutputResult("In ascolto..."))
                 } catch(e) {
                     console.log(e)
                 }
@@ -60,5 +59,5 @@ export const useRecognition = () => {
         }
     }, [onAir])
 
-    return null
+    return { onAir, setOnAir }
 }
