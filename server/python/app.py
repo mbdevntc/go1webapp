@@ -9,13 +9,16 @@ import numpy as np
 from pyttsx3 import init
 from speech_recognition import Recognizer, Microphone, UnknownValueError
 
-import sys
-import time
-import vlc       # Import vlc if you need a song for your choreography
+import platform
+currentOS = platform.system()
+if(currentOS == "Linux"):
+    import sys
+    import time
+    import vlc       # Import vlc if you need a song for your choreography
 
-sys.path.append('./lib/amd64')
+    sys.path.append('./lib/amd64')
 
-import robot_interface as sdk
+    import robot_interface as sdk
 
 app = Flask(__name__)
 CORS(app)
@@ -227,7 +230,8 @@ def getSTT():
 
 @app.post("/startChoreography")
 def startChoreography():
-    choreography()
+    if(currentOS == "Linux"):
+        choreography()
 
 if __name__ == '__main__':
     app.run(host="localhost", port=5000)

@@ -18,7 +18,6 @@ function App() {
   const dispatch = useDispatch()
   const isConnect = useSelector(selectIsConnected)
 
-
   // Verifica ogni secondo se il server è connesso al cane
   useEffect(() => {
       const intervalID = setInterval(async () => {
@@ -52,7 +51,7 @@ function App() {
         <div className="main-modes">
           <Modes />
           <Microphone />
-          <div className="btn-choreo" onClick={startChoreography}>Start Choreography</div>
+          {window.navigator.userAgentData.platform === "Linux" && <div className="btn-choreo" onClick={startChoreography}>Start Choreography</div>}
         </div>
         <Controllers />
         <div className={`info ${isConnect ? "green" : "red"}`}>
