@@ -33,7 +33,7 @@ export const InclinationController = () => {
     const incline = async (leanLR, twistLR, lookUpDown, time) => {
         // Verifica della connessione con il cane robot e che la modalità si impostata su posizione statica
         if(isConnected) {
-            const response = await inclineAPI(leanLR, twistLR, lookUpDown, time)
+            await inclineAPI(leanLR, twistLR, lookUpDown, time)
         } else  {
             dispatch(setInteractionMsg({
                 msg: "Cane robot non connesso",

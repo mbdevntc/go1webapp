@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { selectFinalResult, selectIntermediateResult, selectIsFinal, selectOutputResult, setOutputResult } from "../features/MicrophoneSlice.js"
 import { changeMode, selectIsConnected, selectLRSpeed, selectSpeed, selectTurningSpeed, setInteractionMsg } from "../features/RobotSlice.js"
 import { useOfflineRecognition } from "../hooks/useOfflineRecognition.js"
-import { useRecognition } from "../hooks/useRecognition.js"
+// import { useRecognition } from "../hooks/useRecognition.js"
+import { getCommand, inclineAPI, moveAPI } from "./utils.js"
 import { disabledMic, mic } from "../utils/icons.js"
 import "./style/Microphone.css"
-import { getCommand, inclineAPI, moveAPI } from "./utils.js"
 
 export const Microphone = () => {
     const dispatch = useDispatch()
@@ -28,7 +28,7 @@ export const Microphone = () => {
     const move = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
         // Verifica della connessione con il cane robot
         if(isConnected) {
-            const response = await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
+            await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
         } else  {
             dispatch(setInteractionMsg({
                 msg: "Cane robot non connesso",
@@ -42,7 +42,7 @@ export const Microphone = () => {
     const incline = async (leanLR, twistLR, lookUpDown, time) => {
         // Verifica della connessione con il cane robot
         if(isConnected) {
-            const response = await inclineAPI(leanLR, twistLR, lookUpDown, time)
+            await inclineAPI(leanLR, twistLR, lookUpDown, time)
         } else  {
             dispatch(setInteractionMsg({
                 msg: "Cane robot non connesso",

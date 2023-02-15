@@ -52,9 +52,10 @@ const options = {
             state.transcriptReceived = true
         })
         .addCase(getOfflineTranscript.rejected, state => {
-            state.isFinal = false
+            state.isFinal = true
             state.hasError = true
             state.transcriptReceived = true
+            state.finalResult = ""
         })
     }
 }

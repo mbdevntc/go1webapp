@@ -36,7 +36,7 @@
   grid-area: main;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 3fr 1fr;
+  grid-template-rows: 1fr 2fr 1fr;
   grid-template-areas: "mode"
                        "controllers"
                        "status";
@@ -90,7 +90,6 @@
 }
 
 .controller-block {
-  /* height: 50%; */
   display: flex;
   flex-direction: column;
   justify-content: stretch;
@@ -106,45 +105,6 @@
   place-items: center;
   gap: .5rem;
 }
-
-/* .controller-btn {
-  height: 5rem;
-  width: 5rem;
-  font-size: 3rem;
-  border-radius: .625rem;
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-  box-shadow: 4px 4px black;
-
-  position: relative;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 250ms;
-}
-
-.controller-btn.btn-sm {
-  height: 3.5rem;
-  width: 3.5rem;
-}
-
-.controller-btn.alert {
-  background-color: var(--alert-light);
-  color: var(--alert);
-  font-size: 1.5rem;
-}
-
-.controller-btn:hover {
-  background-color: var(--light-gray);
-}
-
-.controller-btn:active {
-  background-color: var(--success-light);
-  transform: translateX(4px) translateY(4px);
-  box-shadow: 0 0 transparent;
-} */
 
 .blank {
   background-color: transparent;
@@ -194,4 +154,31 @@
   background-color: var(--alert);
   color: white;
   box-shadow: 0 0 10px 5px var(--alert-light);
+}
+
+.btn-choreo {
+  padding-block: .25rem;
+  padding-inline: .75rem;
+  font-size: 1.25rem;
+  color: white;
+  border-radius: .5rem;
+  background: linear-gradient(
+        45deg,
+        rgba(79, 220, 74, 1) 5%,
+        rgba(63, 218, 216, 1) 15%,
+        rgba(47, 201, 226, 1) 30%,
+        rgba(28, 127, 238, 1) 45%,
+        rgba(95, 21, 242, 1) 60%,
+        rgba(186, 12, 248, 1) 75%,
+        rgba(251, 7, 217, 1) 90%,
+        rgba(255, 0, 0, 1) 100%
+    );
+  background-size: 1000px 100px;
+  background-repeat: no-repeat;
+  background-position: right;
+  transition: all 500ms;
+}
+
+.btn-choreo:hover {
+  background-position: left;
 }

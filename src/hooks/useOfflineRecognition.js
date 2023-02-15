@@ -8,29 +8,8 @@ export const useOfflineRecognition = () => {
     const [ onAir, setOnAir ] = useState(false)
     const transcriptReceived = useSelector(selectTranscriptReceived)
     const timeoutId = useRef()
-    console.log(transcriptReceived)
 
-    useEffect(() => {
-        // const getTranscriptFromServer = async () => {
-        //     try {
-        //         dispatch(setOutputResult("Loading..."))
-        //         const timeoutId = setTimeout(() => {
-        //             dispatch(setOutputResult("In ascolto..."))
-        //         }, 1000)
-        //         const res = await fetch("http://localhost:5000/getSpeechToText", {
-        //             headers: {'Content-Type': 'application/json'},
-        //             method: 'GET',
-        //         })
-        //         clearTimeout(timeoutId)
-        //         const json = await res.json()
-        //         console.log(json)
-        //         setOnAir(false)
-        //         return res
-        //     } catch(e) {
-        //         console.log(e)
-        //     }
-        // }
-        
+    useEffect(() => {       
         if(onAir) {
             dispatch(setOutputResult("Loading..."))
             timeoutId.current = setTimeout(() => {

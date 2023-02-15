@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { selectGamepadLeftAnalogAxes, selectGamepadRightAnalogAxes } from "../features/GamepadSlice.js"
 import { selectCurrentMode, selectCurrentModeUser, selectIsConnected } from "../features/RobotSlice.js"
 import { useGamepad } from "../hooks/useGamepad.js"
-import { inclineAPI } from "./utils.js"
+import { inclineAPI, moveAPI } from "./utils.js"
 
 // Componente che permette di utilizzare il joystick per controllare
 // il cane robot
@@ -38,11 +38,11 @@ export const Gamepad = () => {
     })
 
     const move = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
-        const response = await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
+        await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
     }
 
     const incline = async (leanLR, twistLR, lookUpDown, time) => {
-        const response = await inclineAPI(leanLR, twistLR, lookUpDown, time)
+        await inclineAPI(leanLR, twistLR, lookUpDown, time)
     }
 
     return null

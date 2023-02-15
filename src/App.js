@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { Controllers } from './components/Controllers.js';
 import { NavBar } from './components/NavBar.js';
-import { isConnected, selectIsConnected } from './features/RobotSlice.js';
+import { isConnected, selectIsConnected, setInteractionMsg } from './features/RobotSlice.js';
 import { Modes } from './components/Modes.js';
 
 import './App.css';
@@ -16,7 +16,7 @@ import { Microphone } from './components/Microphone.js';
 // e importare le funzioni necessarie :)
 function App() {
   const dispatch = useDispatch()
-  const connected = useSelector(selectIsConnected)
+  const isConnect = useSelector(selectIsConnected)
 
 
   // Verifica ogni secondo se il server è connesso al cane
@@ -26,6 +26,24 @@ function App() {
     }, 1000)
     return () => clearInterval(intervalID)
   })
+  const startChoreography = async () => {
+    if(isConnect) {
+      try {
+        await fetch("http://localhost:5000/startChoreography", {
+          headers: {'Content-Type': 'application/json'},
+          method: 'POST',
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      dispatch(setInteractionMsg({
+        msg: "Cane robot non connesso",
+        mode: "",
+        expiringIn: 5
+    }))
+    }
+  }
   
   return (
     <div className="App">
@@ -34,10 +52,11 @@ function App() {
         <div className="main-modes">
           <Modes />
           <Microphone />
+          <div className="btn-choreo" onClick={startChoreography}>Start Choreography</div>
         </div>
         <Controllers />
-        <div className={`info ${connected ? "green" : "red"}`}>
-          {connected ? "Robot connesso" : "Robot non connesso"}
+        <div className={`info ${isConnect ? "green" : "red"}`}>
+          {isConnect ? "Robot connesso" : "Robot non connesso"}
         </div>
         <Gamepad />
         <MessagesStack />

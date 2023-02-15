@@ -37,7 +37,7 @@ export const MovementController = () => {
     const move = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
         // Verifica della connessione con il cane robot
         if(isConnected) {
-            const response = await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
+            await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
         } else  {
             dispatch(setInteractionMsg({
                 msg: "Cane robot non connesso",

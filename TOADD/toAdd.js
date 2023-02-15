@@ -40,3 +40,5 @@ this.client.on("offline", () => {
     console.log("disconnected");
     this.connected = false;
 });
+
+// OR JUST COPY AND PASTE THE FILES THAT ARE INCLUDED IN THIS FOLDER :)
