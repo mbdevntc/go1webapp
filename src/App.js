@@ -27,7 +27,7 @@ function App() {
   })
 
   const startChoreography = async () => {
-    if(true) {
+    if(isConnect) {
       try {
         await fetch("http://localhost:5000/startChoreography", {
           headers: {'Content-Type': 'application/json'},
@@ -46,7 +46,7 @@ function App() {
   }
 
   const stopChoreography = async () => {
-    if(true) {
+    if(isConnect) {
       try {
         await fetch("http://localhost:5000/stopChoreography", {
           headers: {'Content-Type': 'application/json'},
