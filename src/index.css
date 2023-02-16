@@ -117,16 +117,41 @@ input[type="range"] {
   border-radius: .25rem;
   padding-block: .25rem;
   padding-inline: 1rem;
-  transition: all 250ms;
+  font-size: 1.25rem;
+  transition: all 500ms;
 }
 
 .btn-sm {
   border-radius: .375rem;
   padding-block: .25rem;
   padding-inline: .5rem;
+  font-size: .75rem;
   transition: all 250ms;
 }
 
 .btn:hover, .btn-sm:hover {
   opacity: .8;
+}
+
+.btn-rainbow {
+  opacity: 1;
+  background: linear-gradient(
+        45deg,
+        rgba(79, 220, 74, 1) 5%,
+        rgba(63, 218, 216, 1) 15%,
+        rgba(47, 201, 226, 1) 30%,
+        rgba(28, 127, 238, 1) 45%,
+        rgba(95, 21, 242, 1) 60%,
+        rgba(186, 12, 248, 1) 75%,
+        rgba(251, 7, 217, 1) 90%,
+        rgba(255, 0, 0, 1) 100%
+    );
+  background-size: 1000px 100px;
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+.btn-rainbow:hover {
+  opacity: 1;
+  background-position: left;
 }

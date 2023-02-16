@@ -31,7 +31,7 @@ export const inclineAPI = async (leanLR, twistLR, lookUpDown, time) => {
 }
 
 const actions = {
-    move: ["muov", "vai", "spost", "indietreggia", "avanza", "ferm", "stop"],
+    move: ["cammin", "muov", "vai", "spost", "indietreggia", "avanza", "ferm", "stop"],
     rotate: ["ruot", "gir"],
     incline: ["pieg", "inclin", "guard", "sied"],
     mode: ["modalità", "alzat", "abbass", "salut"]

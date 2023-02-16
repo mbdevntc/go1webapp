@@ -14,9 +14,17 @@ currentOS = platform.system()
 if(currentOS == "Linux"):
     import sys
     import time
-    import vlc       # Import vlc if you need a song for your choreography
+    import vlc
+    from os import getppid, path, kill
+    from multiprocessing import Process
+    from signal import SIGKILL
 
-    sys.path.append('./lib/amd64')
+    dirname = path.dirname(__file__)
+    robot_interface_path = path.join(dirname, 'lib/amd64')
+    song_path = path.join(dirname, 'song/cupidShuffleEdit.mp3')
+
+    # sys.path.append('/home/oreomarco/Desktop/dev/go1webapp/server/python/lib/amd64')
+    sys.path.append(robot_interface_path)
 
     import robot_interface as sdk
 
@@ -28,25 +36,26 @@ r = Recognizer()
 
 def startRecognition():
     transcript = "Non ho capito"
+
     with Microphone() as source:
         r.adjust_for_ambient_noise(source)
         engine.runAndWait()
-        print("Listen...")
-        audio = r.listen(source)
-        try:
-            wav_bytes = audio.get_wav_data(convert_rate=16000)
-            wav_stream = io.BytesIO(wav_bytes)
-            audio_array, sampling_rate = sf.read(wav_stream)
-            audio_array = audio_array.astype(np.float32)
-            transcript = model.transcribe(audio_array,  language="it", fp16=torch.cuda.is_available())
-        except UnknownValueError:
-            print("Errore nell'ascolto")
-        finally:
-            if(transcript):
-                return transcript["text"].lower()
-            else:
-                print("Errore")
-                return transcript
+        audio = r.listen(source=source, timeout=8, phrase_time_limit=5)
+
+    try:
+        wav_bytes = audio.get_wav_data(convert_rate=16000)
+        wav_stream = io.BytesIO(wav_bytes)
+        audio_array, sampling_rate = sf.read(wav_stream)
+        audio_array = audio_array.astype(np.float32)
+        transcript = model.transcribe(audio_array,  language="it", fp16=torch.cuda.is_available())
+    except UnknownValueError:
+        print("Errore nell'ascolto")
+    finally:
+        if(transcript):
+            return transcript["text"].lower()
+        else:
+            print("Errore")
+            return transcript
 
 # This function send command to GO1 using udp
 def send(udp, cmd):
@@ -104,7 +113,7 @@ def connect():
 
     cmd = sdk.HighCmd()
     state = sdk.HighState()
-    udp.InitCmdData(udp, cmd)
+    udp.InitCmdData(cmd)
     return cmd, state, udp
 
 def choreography():
@@ -112,7 +121,7 @@ def choreography():
     cmd, state, udp = connect()
 
     # This Variable set the song path 
-    song = vlc.MediaPlayer("./song/cupidShuffleEdit.mp3")
+    song = vlc.MediaPlayer(song_path)
 
     reset(udp, cmd)
 
@@ -222,6 +231,8 @@ def choreography():
 
 # ROUTES
 
+process_choreo= ""
+
 @app.get("/getSpeechToText")
 def getSTT():
     # transcript = startRecognition()
@@ -231,7 +242,22 @@ def getSTT():
 @app.post("/startChoreography")
 def startChoreography():
     if(currentOS == "Linux"):
-        choreography()
+        global process_choreo
+        process_choreo = Process(target=choreography)
+        process_choreo.start()
+        #choreography()
+        return jsonify(response = "Done")
+    else:
+        return jsonify(response = "Sorry, use Linux to run this command :(")
+
+@app.post("/stopChoreography")
+def stopChoreography():
+    if(currentOS == "Linux"):
+        global process_choreo
+        kill(process_choreo.pid, SIGKILL)
+        return jsonify(response = "Done")
+    else:
+        return jsonify(response = "Sorry, use Linux to run this command :(")
 
 if __name__ == '__main__':
     app.run(host="localhost", port=5000)

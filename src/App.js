@@ -25,10 +25,30 @@ function App() {
     }, 1000)
     return () => clearInterval(intervalID)
   })
+
   const startChoreography = async () => {
-    if(isConnect) {
+    if(true) {
       try {
         await fetch("http://localhost:5000/startChoreography", {
+          headers: {'Content-Type': 'application/json'},
+          method: 'POST',
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    } else {
+      dispatch(setInteractionMsg({
+        msg: "Cane robot non connesso",
+        mode: "",
+        expiringIn: 5
+    }))
+    }
+  }
+
+  const stopChoreography = async () => {
+    if(true) {
+      try {
+        await fetch("http://localhost:5000/stopChoreography", {
           headers: {'Content-Type': 'application/json'},
           method: 'POST',
         })
@@ -51,7 +71,10 @@ function App() {
         <div className="main-modes">
           <Modes />
           <Microphone />
-          {window.navigator.userAgentData.platform === "Linux" && <div className="btn-choreo" onClick={startChoreography}>Start Choreography</div>}
+          <div className='choreo-btns'>
+            {window.navigator.userAgentData.platform === "Linux" && <div className="btn btn-rainbow cl-white" onClick={startChoreography}>Start Choreography</div>}
+            {window.navigator.userAgentData.platform === "Linux" && <div className="btn bg-alert cl-white" onClick={stopChoreography}>Stop Choreography</div>}
+          </div>
         </div>
         <Controllers />
         <div className={`info ${isConnect ? "green" : "red"}`}>

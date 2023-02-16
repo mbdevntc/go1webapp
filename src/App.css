@@ -36,7 +36,7 @@
   grid-area: main;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 1fr 2fr 1fr;
+  grid-template-rows: 2fr 3fr 1fr;
   grid-template-areas: "mode"
                        "controllers"
                        "status";
@@ -156,29 +156,10 @@
   box-shadow: 0 0 10px 5px var(--alert-light);
 }
 
-.btn-choreo {
-  padding-block: .25rem;
-  padding-inline: .75rem;
-  font-size: 1.25rem;
-  color: white;
-  border-radius: .5rem;
-  background: linear-gradient(
-        45deg,
-        rgba(79, 220, 74, 1) 5%,
-        rgba(63, 218, 216, 1) 15%,
-        rgba(47, 201, 226, 1) 30%,
-        rgba(28, 127, 238, 1) 45%,
-        rgba(95, 21, 242, 1) 60%,
-        rgba(186, 12, 248, 1) 75%,
-        rgba(251, 7, 217, 1) 90%,
-        rgba(255, 0, 0, 1) 100%
-    );
-  background-size: 1000px 100px;
-  background-repeat: no-repeat;
-  background-position: right;
-  transition: all 500ms;
-}
-
-.btn-choreo:hover {
-  background-position: left;
+.choreo-btns {
+  margin-top: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
 }
