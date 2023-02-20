@@ -137,96 +137,108 @@ def choreography():
     # CUPID SHUFFLE CHOREOGRAPHY
 
     # To the right 
-    start_time1 = time.time()
-    while (time.time() - start_time1) < 2.5:
+    start_time = time.time()
+    while (time.time() - start_time) < 2.5:
         walk(udp, cmd, 1, 0, [0,0,0], [0, -0.2], 0.01)
     
     # To the left
-    start_time2 = time.time()
-    while (time.time() - start_time2) < 3:
-        walk(udp, cmd, 1, 0, [0,0,0], [0, 0.4], 0.01)
+    start_time = time.time()
+    while (time.time() - start_time) < 3:
+        walk(udp, cmd, 1, -0.17, [0,0,0], [0, 0.25], 0.01)
     
     time.sleep(1.5)
 
-    # Animation dance 1
-    animations(udp, cmd, 12, 16.5)
+    # Animation dance 1 = L1 + X
+    animations(12, 16.5)
 
     # Yaw 360°
-    start_time3 = time.time()
-    while (time.time() - start_time3) < 4:
-        walk(udp, cmd, 1, 1.9, [0, 0, 0],[0, 0], 0.01)
-        
+    start_time = time.time()
+    while (time.time() - start_time) < 2:
+        walk(udp, cmd, 1, 3.65, [0, 0, 0],[0, 0], 0.01)
+    
     time.sleep(1.5)
 
-    # Animation dance 2
-    animations(udp, cmd, 13, 6.5)
+    walk(udp, cmd, 1, -0.1, [0, 0, 0],[0, 0.3], 2) 
+
+    # Animation dance 2 = R1 + X, stop after 6.5 seconds
+    animations(13, 6.5)
 
 
-    # Walk in circle Right
-    start_time10 = time.time()
-    while (time.time() - start_time10) < 4:
-        walk(udp, cmd, 1, -1.9, [0, 0, 0], [0.5, 0], 0.05)
+    # Walk in S TO RIGHT
+    start_time = time.time()
+    while (time.time() - start_time) < 2:
+        walk(udp, cmd, 1, 2.8, [0, 0, 0], [0.5, 0], 0.01)
+    
+    start_time = time.time()
+    while (time.time() - start_time) < 2:
+        walk(udp, cmd, 1, -3.2, [0, 0, 0], [0.5, 0], 0.01)
 
     time.sleep(1)
 
     # To the right
-    start_time6 = time.time()
-    while (time.time() - start_time6) < 2.5:
-        walk(udp, cmd, 1, -0.1, [0,0,0], [0, -0.2], 0.01)
+    start_time = time.time()
+    while (time.time() - start_time) < 2.5:
+        walk(udp, cmd, 1, -0.1, [0,0,0], [0.15, -0.2], 0.01)
 
     # To the left
-    start_time7 = time.time()
-    while (time.time() - start_time7) < 3:
+    start_time = time.time()
+    while (time.time() - start_time) < 3:
         walk(udp, cmd, 1, 0, [0,0,0], [0, 0.4], 0.01)
 
     time.sleep(1.5)
 
-    # Walk in circle Left
-    start_time10 = time.time()
-    while (time.time() - start_time10) < 4:
-        walk(udp, cmd, 1, 1.9, [0, 0, 0], [0.5, 0], 0.05)
+    # Walk in S TO LEFT
+    start_time = time.time()
+    while (time.time() - start_time) < 2:
+        walk(udp, cmd, 1, -2.8, [0, 0, 0], [0.5, 0], 0.05)
+    start_time = time.time()
+    while (time.time() - start_time) < 2:
+        walk(udp, cmd, 1, 3.1, [0, 0, 0], [0.5, 0], 0.05)
+    
 
     time.sleep(2)
-
-            
+        
     # To the right
-    start_time8 = time.time()
-    while (time.time() - start_time8) < 2.5:
-        walk(udp, cmd, 1, 0, [0,0,0], [0, -0.2], 0.01)
+    start_time = time.time()
+    while (time.time() - start_time) < 2.5:
+        walk(udp, cmd, 1, -0.12, [0,0,0], [0.15, -0.2], 0.01)
 
     # To the left
-    start_time9 = time.time()
-    while (time.time() - start_time9) < 4:
+    start_time = time.time()
+    while (time.time() - start_time) < 3:
         walk(udp, cmd, 1, 0, [0,0,0], [0, 0.3], 0.01)
 
 
     time.sleep(3)
-    reset()
 
     # Animation Stand Up
-    animations(udp, cmd, 1, 2)
+    animations(1, 2)
+    
     time.sleep(5)
 
     # Animation Straight Hands
-    animations(udp, cmd, 11, 8)
+    animations(11, 8)
+
+    reset()
 
     # Greetings
     
     # Left
     walk(udp, cmd, 1, 1, [0, 0, 0], [0, 0], 2)
-    moveBody(udp, cmd, 1, [0, 0.6, 0], 2)
+    moveBody(1, [0, 0.6, 0], 2)
     
     # Right
-    walk(udp, cmd, 1, -2, [0, 0, 0], [0, 0], 2)
-    moveBody(udp, cmd, 1, [0, 0.6, 0], 2)
+    walk(udp, cmd, 1, -2, [0, 0, 0], [0, 0.1], 2)
+    moveBody(1, [0, 0.6, 0], 2)
     
     # Mid
-    walk(udp, cmd, 1, 1, [0, 0, 0], [0, 0], 2)    
+    walk(udp, cmd, 1, 1, [0, 0, 0], [0, 0], 2)      
     for _ in range(2):
-        moveBody(udp, cmd, 1, [0, 0.6, 0], 2)
+        moveBody(1, [0, 0.6, 0], 2)
 
     print("Stop Song")
     song.stop()
+
 # END
 
 # ROUTES
