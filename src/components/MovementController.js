@@ -1,10 +1,11 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight, arrowLeftDown, arrowLeftUp, arrowRightUp, arrowRightDown } from "../utils/icons.js"
 import { Title } from "./Title.js"
 import { selectCurrentMode, selectCurrentModeUser, selectIsConnected, selectLRSpeed, selectSpeed, selectTurningSpeed, setInteractionMsg } from "../features/RobotSlice.js"
 import { moveAPI } from "./utils.js"
+import { selectGamepadLeftAnalogAxes } from "../features/GamepadSlice.js"
 
 // Le parti di codice commentate sono necessarie per poter utilizzare il Joystick
 export const MovementController = () => {
@@ -20,18 +21,18 @@ export const MovementController = () => {
 
     // Joystick handler
 
-    // const leftAnalogAxes = useSelector(selectGamepadLeftAnalogAxes)
-    // useEffect(() => {
-    //     if(isConnected&& currentMode === "walk") {
-    //         const fb = parseFloat(leftAnalogAxes[1])
-    //         const lr = parseFloat(leftAnalogAxes[0])
-    //         if(Math.abs(fb) > 0.1 || Math.abs(lr) > 0.1) {
-    //             move(0, lr, fb, 100)
-    //         } else {
-    //             move(0, 0, 0, 100)
-    //         }
-    //     }
-    // })
+    const leftAnalogAxes = useSelector(selectGamepadLeftAnalogAxes)
+    useEffect(() => {
+        if(isConnected&& currentMode === "walk") {
+            const fb = parseFloat(leftAnalogAxes[1])
+            const lr = parseFloat(leftAnalogAxes[0])
+            if(Math.abs(fb) > 0.1 || Math.abs(lr) > 0.1) {
+                move(0, lr, fb, 100)
+            } else {
+                move(0, 0, 0, 100)
+            }
+        }
+    })
 
     // Invio dei dati relativi al movimento che deve eseguire il cane al server
     const move = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {

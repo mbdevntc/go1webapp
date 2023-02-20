@@ -1,10 +1,11 @@
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { ControllerBtn } from "./ControllerBtn.js"
 import { arrowUp, arrowDown, arrowLeft, arrowRight } from "../utils/icons.js"
 import { Title } from "./Title.js"
 import { selectCurrentMode, selectCurrentModeUser, selectIsConnected, setInteractionMsg } from "../features/RobotSlice.js"
 import { inclineAPI } from "./utils.js"
+import { selectGamepadRightAnalogAxes } from "../features/GamepadSlice.js"
 
 // Le parti di codice commentate sono necessarie per poter utilizzare il Joystick
 export const InclinationController = () => {
@@ -16,18 +17,18 @@ export const InclinationController = () => {
 
     // Joystick handler
     
-    // const rightAnalogAxes = useSelector(selectGamepadRightAnalogAxes)
-    // useEffect(() => {
-    //     if(isConnected && currentMode === "stand") {
-    //         const lookUpDown = parseFloat(rightAnalogAxes[1])
-    //         const leanLR = parseFloat(rightAnalogAxes[0])
-    //         if(Math.abs(lookUpDown) > 0.1 || Math.abs(leanLR) > 0.1) {
-    //             incline(leanLR, lookUpDown, 100)
-    //         } else {
-    //             incline(0, 0, 0, 100)
-    //         }
-    //     }
-    // })
+    const rightAnalogAxes = useSelector(selectGamepadRightAnalogAxes)
+    useEffect(() => {
+        if(isConnected && currentMode === "stand") {
+            const lookUpDown = parseFloat(rightAnalogAxes[1])
+            const leanLR = parseFloat(rightAnalogAxes[0])
+            if(Math.abs(lookUpDown) > 0.1 || Math.abs(leanLR) > 0.1) {
+                incline(leanLR, lookUpDown, 100)
+            } else {
+                incline(0, 0, 0, 100)
+            }
+        }
+    })
 
     // Invio dei dati relativi all'inclinazione del cane al server
     const incline = async (leanLR, twistLR, lookUpDown, time) => {

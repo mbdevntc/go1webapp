@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux"
-import { changeMode, selectCurrentMode, selectIsConnected } from "../features/RobotSlice.js"
+import { changeMode, selectCurrentMode, selectIsConnected, setInteractionMsg } from "../features/RobotSlice.js"
 import { CustomSelect } from "./CustomSelect.js"
 
 // Componente per modificare la modalità del cane robot
@@ -22,6 +22,12 @@ export const Modes = () => {
             } catch(e) {
                 console.log(e)
             }
+        } else  {
+            dispatch(setInteractionMsg({
+                msg: "Cane robot non connesso",
+                mode: "",
+                expiringIn: 5
+            }))
         }
     }
 
