@@ -58,9 +58,6 @@ def startRecognition():
             print("Errore")
             return transcript
 
-
-
-
 # This function send command to GO1 using udp
 def send(udp, cmd):
     udp.SetSend(cmd)

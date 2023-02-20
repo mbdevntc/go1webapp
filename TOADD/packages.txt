@@ -1,0 +1,15 @@
+pip install git+https://github.com/openai/whisper.git
+pip install PyAudio
+pip install pyttsx3
+pip install SpeechRecognition
+pip install flask
+pip install Flask-Cors
+pip install soundfile
+pip install vlc
+pip install numpy
+pip install torch
+pip install io
+pip install multiprocess
+
+Se python avvisa che mancano altri pacchetti che mi sono
+dimenticato, installateli :)
