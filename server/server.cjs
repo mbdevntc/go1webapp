@@ -4,6 +4,7 @@ if(process.env.NODE_ENV !== 'production'){
 
 const express = require('express')
 const app = express()
+const path = require('path');
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const Go1 = require('@droneblocks/go1-js').Go1
@@ -13,6 +14,12 @@ app.use(bodyParser.json())
 
 const robot = new Go1()
 robot.setMode("standUp")
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.get('/isConnected', async (req, res) => {
     if(robot.mqtt.connected) {
@@ -63,57 +70,57 @@ app.post('/incline', async (req, res, next) => {
     }
 })
 
-app.post('/lookUp', async (req, res, next) => {
-    if(robot.mqtt.connected) {
-        robot.setMode("stand")
-        const { speed, time } = await req.body
-        await robot.lookUp(speed, time)
-        res.status(200).send("done")
-    } else {
-        const error = new Error('Cane robot non connesso')
-        error.status = 404
-        return next(error);
-    }
-})
+// app.post('/lookUp', async (req, res, next) => {
+//     if(robot.mqtt.connected) {
+//         robot.setMode("stand")
+//         const { speed, time } = await req.body
+//         await robot.lookUp(speed, time)
+//         res.status(200).send("done")
+//     } else {
+//         const error = new Error('Cane robot non connesso')
+//         error.status = 404
+//         return next(error);
+//     }
+// })
 
-app.post('/lookDown', async (req, res, next) => {
-    if(robot.mqtt.connected) {
-        robot.setMode("stand")
-        const { speed, time } = await req.body
-        await robot.lookDown(speed, time)
-        res.status(200).send("done")
-    } else {
-        const error = new Error('Cane robot non connesso')
-        error.status = 404
-        return next(error);
-    }
-})
+// app.post('/lookDown', async (req, res, next) => {
+//     if(robot.mqtt.connected) {
+//         robot.setMode("stand")
+//         const { speed, time } = await req.body
+//         await robot.lookDown(speed, time)
+//         res.status(200).send("done")
+//     } else {
+//         const error = new Error('Cane robot non connesso')
+//         error.status = 404
+//         return next(error);
+//     }
+// })
 
-app.post('/leanLeft', async (req, res, next) => {
-    if(robot.mqtt.connected) {
-        robot.setMode("stand")
-        const { speed, time } = await req.body
-        await robot.leanLeft(speed, time)
-        res.status(200).send("done")
-    } else {
-        const error = new Error('Cane robot non connesso')
-        error.status = 404
-        return next(error);
-    }
-})
+// app.post('/leanLeft', async (req, res, next) => {
+//     if(robot.mqtt.connected) {
+//         robot.setMode("stand")
+//         const { speed, time } = await req.body
+//         await robot.leanLeft(speed, time)
+//         res.status(200).send("done")
+//     } else {
+//         const error = new Error('Cane robot non connesso')
+//         error.status = 404
+//         return next(error);
+//     }
+// })
 
-app.post('/leanRight', async (req, res, next) => {
-    if(robot.mqtt.connected) {
-        robot.setMode("stand")
-        const { speed, time } = await req.body
-        await robot.leanRight(speed, time)
-        res.status(200).send("done")
-    } else {
-        const error = new Error('Cane robot non connesso')
-        error.status = 404
-        return next(error);
-    }
-})
+// app.post('/leanRight', async (req, res, next) => {
+//     if(robot.mqtt.connected) {
+//         robot.setMode("stand")
+//         const { speed, time } = await req.body
+//         await robot.leanRight(speed, time)
+//         res.status(200).send("done")
+//     } else {
+//         const error = new Error('Cane robot non connesso')
+//         error.status = 404
+//         return next(error);
+//     }
+// })
 
 app.use((err, req, res, next) => {
     const errorStatus = err.status || 500;

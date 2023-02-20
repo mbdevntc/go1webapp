@@ -24,6 +24,7 @@ if(currentOS == "Linux"):
     song_path = path.join(dirname, 'song/cupidShuffleEdit.mp3')
 
     # sys.path.append('/home/oreomarco/Desktop/dev/go1webapp/server/python/lib/amd64')
+   
     sys.path.append(robot_interface_path)
 
     import robot_interface as sdk
@@ -56,6 +57,9 @@ def startRecognition():
         else:
             print("Errore")
             return transcript
+
+
+
 
 # This function send command to GO1 using udp
 def send(udp, cmd):
@@ -134,7 +138,6 @@ def choreography():
     udp.GetRecv(state)
     
     # CUPID SHUFFLE CHOREOGRAPHY
-    # START
 
     # To the right 
     start_time1 = time.time()
@@ -148,7 +151,7 @@ def choreography():
     
     time.sleep(1.5)
 
-    # Animation dance 1 = L1 + X
+    # Animation dance 1
     animations(udp, cmd, 12, 16.5)
 
     # Yaw 360°
@@ -158,7 +161,7 @@ def choreography():
         
     time.sleep(1.5)
 
-    # Animation dance 2 = R1 + X, stop after 6.5 seconds
+    # Animation dance 2
     animations(udp, cmd, 13, 6.5)
 
 
@@ -181,7 +184,7 @@ def choreography():
 
     time.sleep(1.5)
 
-    # Walk cmd, in circle Left
+    # Walk in circle Left
     start_time10 = time.time()
     while (time.time() - start_time10) < 4:
         walk(udp, cmd, 1, 1.9, [0, 0, 0], [0.5, 0], 0.05)
