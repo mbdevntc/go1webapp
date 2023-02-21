@@ -149,7 +149,7 @@ def choreography():
     time.sleep(1.5)
 
     # Animation dance 1 = L1 + X
-    animations(12, 16.5)
+    animations(udp, cmd, 12, 16.5)
 
     # Yaw 360°
     start_time = time.time()
@@ -161,7 +161,7 @@ def choreography():
     walk(udp, cmd, 1, -0.1, [0, 0, 0],[0, 0.3], 2) 
 
     # Animation dance 2 = R1 + X, stop after 6.5 seconds
-    animations(13, 6.5)
+    animations(udp, cmd, 13, 6.5)
 
 
     # Walk in S TO RIGHT
@@ -206,35 +206,35 @@ def choreography():
     # To the left
     start_time = time.time()
     while (time.time() - start_time) < 3:
-        walk(udp, cmd, 1, 0, [0,0,0], [0, 0.3], 0.01)
+        walk(udp, cmd, 1, 0, [0,0,0], [0, 0.35], 0.01)
 
 
     time.sleep(3)
 
     # Animation Stand Up
-    animations(1, 2)
+    animations(udp, cmd, 1, 2)
     
     time.sleep(5)
 
     # Animation Straight Hands
-    animations(11, 8)
+    animations(udp, cmd, 11, 8)
 
-    reset()
+    reset(udp, cmd)
 
     # Greetings
     
     # Left
     walk(udp, cmd, 1, 1, [0, 0, 0], [0, 0], 2)
-    moveBody(1, [0, 0.6, 0], 2)
+    moveBody(udp, cmd, 1, [0, 0.6, 0], 2)
     
     # Right
     walk(udp, cmd, 1, -2, [0, 0, 0], [0, 0.1], 2)
-    moveBody(1, [0, 0.6, 0], 2)
+    moveBody(udp, cmd, 1, [0, 0.6, 0], 2)
     
     # Mid
     walk(udp, cmd, 1, 1, [0, 0, 0], [0, 0], 2)      
     for _ in range(2):
-        moveBody(1, [0, 0.6, 0], 2)
+        moveBody(udp, cmd, 1, [0, 0.6, 0], 2)
 
     print("Stop Song")
     song.stop()

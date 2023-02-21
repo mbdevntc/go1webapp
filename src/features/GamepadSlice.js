@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { changeSpeed } from './RobotSlice.js'
 
 const round = num => {
 	return (Math.floor(num / 0.05 ) * 0.05).toFixed(2)
@@ -7,6 +8,7 @@ const round = num => {
 const options = {
 	name: 'gamepad',
 	initialState: { // Stato iniziale dell'applicazione
+		isGamepadConnected: false,
 		gamepad: {
 			leftAnalogAxes: [0, 0], 
 			rightAnalogAxes: [0, 0],
@@ -32,6 +34,9 @@ const options = {
 		},
 	},
 	reducers: {
+		toggleIsConnected: (state, { payload }) => {
+			state.isGamepadConnected = payload
+		},
 		setGamepad: (state, { payload }) => { // Funzione che permette di gestire lo stato attuale
 			const { axes, buttons } = payload // dei controlli del gamepad
 			state.gamepad = {
@@ -57,10 +62,6 @@ const options = {
 					'main': round(buttons[16]), 
 				} 
 			}
-			state.speed = Math.abs(round(axes[1])) > 0.1 ? Math.abs(round(axes[1])) : 0
-			state.turningSpeed = Math.abs(round(axes[0])) > 0.1 ? Math.abs(round(axes[0])) : 0
-			state.inclination = Math.abs(round(axes[3])) > 0.1 ? Math.abs(round(axes[3])) : 0
-			state.lean = Math.abs(round(axes[2])) > 0.1 ? Math.abs(round(axes[2])) : 0
 		},
 		resetGamepad: state => { // Funzione che permette di resettare lo stato del gamepad
 			state.gamepad = {    // quando questo viene disconnesso
@@ -96,10 +97,12 @@ export default gamepad.reducer
 
 export const {
 	setGamepad,
-	resetGamepad
+	resetGamepad,
+	toggleIsConnected
 } = gamepad.actions
 
 // Gamepad selectors
 export const selectGamepad = state => state.gamepad.gamepad
+export const selectIsGamepadConnected = state => state.gamepad.isGamepadConnected
 export const selectGamepadLeftAnalogAxes = state => state.gamepad.gamepad.leftAnalogAxes
 export const selectGamepadRightAnalogAxes = state => state.gamepad.gamepad.rightAnalogAxes
