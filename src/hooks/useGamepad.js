@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
-import { resetGamepad, setGamepad, toggleIsConnected } from "../features/GamepadSlice.js"
+import { resetGamepad, setGamepad, setIsGamepadConnected } from "../features/GamepadSlice.js"
 
 export const useGamepad = () => {
     const dispatch = useDispatch()
@@ -21,7 +21,7 @@ export const useGamepad = () => {
                 buttons.push(button.value)
             }
         dispatch(setGamepad({ axes: axes, buttons: buttons }))
-        dispatch(toggleIsConnected(true))
+        dispatch(setIsGamepadConnected(true))
         // Aggiornamento dei dati del joystick effettuato ogni 100ms, poichè con requestAnimationFrame
         // questo avveniva troppo velocemente (praticamente in tempo reale), quindi venivano effettuate
         // troppe richieste di movimento al cane in pochissimo tempo, il quale non riesce a gestirle 
@@ -36,7 +36,7 @@ export const useGamepad = () => {
             console.log("Gamepad disconnected")
         }
         dispatch(resetGamepad())
-        dispatch(toggleIsConnected(false))
+        dispatch(setIsGamepadConnected(false))
         clearInterval(intervalId.current)
     } 
 
@@ -53,7 +53,7 @@ export const useGamepad = () => {
     }
     
     const start = () => {
-        if(window.navigator.getGamepads()) {
+        if(window.navigator.getGamepads()[0] !== null) {
             const gamepad = window.navigator.getGamepads()[0]
             const axes = gamepad.axes
             const buttons = []
@@ -61,8 +61,9 @@ export const useGamepad = () => {
                 buttons.push(button.value)
             }
             dispatch(setGamepad({ axes: axes, buttons: buttons }))
+        } else {
+            clearInterval(intervalId.current)
         }
-        
     }
 
     useEffect(() => {

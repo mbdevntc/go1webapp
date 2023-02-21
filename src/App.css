@@ -156,7 +156,7 @@
   box-shadow: 0 0 10px 5px var(--alert-light);
 }
 
-.choreo-btns {
+.inline-btns {
   margin-top: 3rem;
   display: flex;
   align-items: center;

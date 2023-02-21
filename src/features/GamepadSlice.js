@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { changeSpeed } from './RobotSlice.js'
 
 const round = num => {
 	return (Math.floor(num / 0.05 ) * 0.05).toFixed(2)
@@ -34,7 +33,7 @@ const options = {
 		},
 	},
 	reducers: {
-		toggleIsConnected: (state, { payload }) => {
+		setIsGamepadConnected: (state, { payload }) => {
 			state.isGamepadConnected = payload
 		},
 		setGamepad: (state, { payload }) => { // Funzione che permette di gestire lo stato attuale
@@ -98,7 +97,7 @@ export default gamepad.reducer
 export const {
 	setGamepad,
 	resetGamepad,
-	toggleIsConnected
+	setIsGamepadConnected
 } = gamepad.actions
 
 // Gamepad selectors

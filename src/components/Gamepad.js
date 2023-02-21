@@ -43,6 +43,13 @@ export const Gamepad = () => {
         }
     })
 
+    useEffect(() => {
+        if(!isGamepadConnected) {
+            dispatch(changeSpeed({speedType: "speed", speed: 0.5}))
+            dispatch(changeSpeed({speedType: "turningSpeed", speed: 0.5}))
+        }
+    }, [isGamepadConnected])
+
     const move = async (leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time) => {
         await moveAPI(leftRightSpeed, turnLeftRightSpeed, forwardBackwardSpeed, time)
     }

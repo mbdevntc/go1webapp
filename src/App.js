@@ -8,6 +8,7 @@ import { Modes } from './components/Modes.js';
 
 import { MessagesStack } from './components/MessagesStack.js';
 import { Gamepad } from './components/Gamepad.js';
+import { selectIsGamepadConnected } from './features/GamepadSlice.js';
 import { Microphone } from './components/Microphone.js';
 
 import './App.css';
@@ -18,6 +19,7 @@ import './App.css';
 function App() {
   const dispatch = useDispatch()
   const isConnect = useSelector(selectIsConnected)
+  const isGamepadConnected = useSelector(selectIsGamepadConnected)
 
   // Verifica ogni secondo se il server è connesso al cane
   useEffect(() => {
@@ -72,15 +74,21 @@ function App() {
         <div className="main-modes">
           <Modes />
           <Microphone />
-          <div className='choreo-btns'>
+          <div className='inline-btns'>
             {window.navigator.userAgentData.platform === "Linux" && <div className="btn btn-rainbow cl-white" onClick={startChoreography}>Start Choreography</div>}
             {window.navigator.userAgentData.platform === "Linux" && <div className="btn bg-alert cl-white" onClick={stopChoreography}>Stop Choreography</div>}
           </div>
         </div>
         <Controllers />
-        <div className={`info ${isConnect ? "green" : "red"}`}>
-          {isConnect ? "Robot connesso" : "Robot non connesso"}
+        <div className='inline-btns'>
+          <div className={`info ${isConnect ? "green" : "red"}`}>
+            {isConnect ? "Robot connesso" : "Robot non connesso"}
+          </div>
+          <div className={`info ${isGamepadConnected ? "green" : "red"}`}>
+            {isGamepadConnected ? "Gamepad connesso" : "Gamepad non connesso"}
+          </div>
         </div>
+        
         <Gamepad />
         <MessagesStack />
       </div>
