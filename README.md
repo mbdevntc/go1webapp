@@ -25,3 +25,6 @@ Creates a production build of the app.
 
 Copy the build directory into the server directory. Start both the JS server and the Python server.
 Your app is served at http://localhost:4001/
+
+# Full Documentation: 
+https://docs.google.com/document/d/15p4-TRmFX0AZvAVAbpd_yZS6sWG8D1Lo/edit?usp=sharing&ouid=103987670920249853078&rtpof=true&sd=true
